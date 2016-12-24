@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@color/black" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:layout_centerInParent="true"
+            android:text="关于"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_aboutBack"
+            android:layout_width="10dp"
+            android:layout_height="17.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="left">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about"
+            android:textColor="@color/black"/>
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about1"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about2"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about3"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about4"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about5"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_marginTop="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/banquan"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+</LinearLayout>

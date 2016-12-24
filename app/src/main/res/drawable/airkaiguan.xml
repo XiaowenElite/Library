@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 定义分类中，按钮按下及未按下字体样式 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_pressed="true" android:drawable="@drawable/kaiguan_icon_press"></item>
+	<item android:state_pressed="false" android:drawable="@drawable/kaiguan_icon_unpress"></item>
+</selector>
