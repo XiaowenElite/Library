@@ -16,4 +16,5 @@
 5. 智能温湿度调节控制</string>
      <string name="banquan">
 版权：钧飞智能科技有限公司</string>
+    <string name="title_activity_camera_state">CameraStateActivity</string>
 </resources>
