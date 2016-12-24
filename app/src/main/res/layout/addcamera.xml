@@ -7,28 +7,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="50dp"
         android:background="@color/black">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="添加灯"
+            android:text="添加相机"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
-            android:id="@+id/btn_lightBack"
+            android:id="@+id/btn_Back"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:gravity="center"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:gravity="center">
+            android:layout_marginLeft="20dp">
 
             <ImageView
                 android:layout_width="10dp"
-                android:layout_height="17.5dp"
+                android:layout_height="18dp"
                 android:background="@drawable/back" />
         </LinearLayout>
 
@@ -48,66 +48,27 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="13dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/deng_icon" />
+                android:background="@drawable/shexiangtou_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="灯名称"
+                android:text="门名称"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/et_lightName"
+                android:id="@+id/et_doorName"
                 android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:background="#00000000"
                 android:gravity="right"
-                android:hint="灯2"
-                android:textColor="@color/gray"
-                android:textSize="11.5sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="13dp"
-            android:background="@drawable/fengexian" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="27dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="13dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/wulidizhi_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="物理地址"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/et_lightPhyAddr"
-                android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:gravity="right"
+                android:hint="摄像头"
                 android:textColor="@color/gray"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -127,43 +88,43 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="13dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/xianluhao_icon" />
+                android:background="@drawable/wulidizhi_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="线路号"
+                android:text="物理地址"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/et_lightline"
+                android:id="@+id/et_doorPhyAddr"
                 android:layout_width="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
                 android:gravity="right"
                 android:textColor="@color/gray"
-                android:textSize="14sp" />
+                android:textSize="11.5sp" />
         </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_gravity="center"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="13.5dp"
             android:background="@drawable/fengexian" />
 
         <Button
-            android:id="@+id/saveLight"
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/y52"
             android:background="@drawable/login_btn"
             android:gravity="center"
             android:text="保存"
@@ -171,11 +132,11 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/unsaveLight"
+            android:id="@+id/btn_unsave"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="14.5dp"
+            android:layout_marginTop="@dimen/y50"
             android:background="@drawable/login_btn"
             android:gravity="center"
             android:text="不保存"

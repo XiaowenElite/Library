@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:background="@color/black" >
+        android:layout_height="50dp"
+        android:background="@color/black">
 
         <TextView
             android:layout_width="wrap_content"
@@ -16,159 +16,191 @@
             android:layout_centerInParent="true"
             android:text="空调遥控器"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btn_airControlBack"
-            android:layout_width="10dp"
-            android:layout_height="17.5dp"
+        <LinearLayout
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/back" />
+            android:layout_marginLeft="10dp"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="17.5dp"
+                android:background="@drawable/back" />
+        </LinearLayout>
+
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="320dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="38dp"
+    <RelativeLayout
+        android:layout_width="@dimen/x584"
+        android:layout_height="@dimen/y238"
         android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:background="@drawable/beijing">
+        android:layout_marginTop="@dimen/y57"
+        android:background="@drawable/beijing"
+        android:orientation="vertical">
+
+
         <LinearLayout
+            android:id="@+id/layout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x120"
+            android:layout_marginTop="@dimen/y52"
+            android:gravity="center"
             android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_tem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="27dp"
-                    android:text="18"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="27dp"
-                    android:text="度"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"/>
-            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_mode"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:background="@drawable/xuehua"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="27dp"
+                android:id="@+id/tv_tem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
                 android:textColor="@color/white"
-                android:textSize="22sp"/>
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ℃"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_winddir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/layout1"
+            android:layout_alignRight="@+id/layout1"
+            android:layout_below="@+id/layout1"
+            android:layout_marginTop="@dimen/y20"
+            android:text="不扫风"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x100"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/im_fengsu"
+            android:layout_width="30dp"
+            android:layout_height="3dp"
+            android:layout_alignBottom="@+id/tv_winddir"
+            android:layout_below="@+id/layout1"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginLeft="21dp"
+            android:layout_marginStart="21dp"
+            android:layout_toRightOf="@+id/tv_mode"
+            android:background="@drawable/fengsuone" />
+
+        <TextView
+            android:id="@+id/tv_windspeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_winddir"
+            android:layout_alignLeft="@+id/tv_mode"
+            android:layout_alignStart="@+id/tv_mode"
+            android:text="风速"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_mode"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignTop="@+id/layout1"
+            android:layout_marginLeft="53dp"
+            android:layout_marginStart="53dp"
+            android:layout_toEndOf="@+id/layout1"
+            android:layout_toRightOf="@+id/layout1"
+            android:background="@drawable/xuehua"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="@dimen/x584"
+        android:layout_height="@dimen/y584"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y58"
+        android:background="@drawable/beijingbai"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/tempUp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/y78"
+            android:background="@drawable/airtiaogao" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:id="@+id/tv_winddir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="27dp"
-                android:text="不扫风"
-                android:textColor="@color/white"
-                android:textSize="9sp"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_windspeed"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_marginLeft="94dp"
-                    android:layout_marginTop="27dp"
-                    android:text="风速"
-                    android:textColor="@color/white"
-                    android:textSize="9sp"/>
-                <ImageView
-                    android:id="@+id/im_fengsu"
-                    android:layout_width="2dp"
-                    android:layout_height="9dp"
-                    android:layout_marginTop="27dp"
-                    android:background="@drawable/fengsu1ji"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/airswitch"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/airkaiguan" />
+
+            <Button
+                android:id="@+id/moshi"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:background="@drawable/airmoshi" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_temUp"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/airtiaogao"
-        android:layout_gravity="center_horizontal"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
-
         <Button
-        android:id="@+id/btn_kaiguan"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:background="@drawable/airkaiguan"
-       />
+            android:id="@+id/temdown"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/airtiaodi" />
 
-        <Button
-            android:id="@+id/btn_airMoshi"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/airmoshi"
-           android:layout_marginLeft="30dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/y80"
+            android:orientation="horizontal">
 
-    </LinearLayout>
-    <Button
-        android:id="@+id/btn_temDown"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/airtiaodi"
-        android:layout_gravity="center_horizontal"/>
+            <Button
+                android:id="@+id/fengsu"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@drawable/airfengsu"
+                android:text="风速"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp">
-        <Button
-            android:id="@+id/btn_fengsu"
-            android:layout_width="100dp"
-            android:layout_height="38dp"
-            android:background="@drawable/airfengsu"
-            android:text="风速"
-            android:textSize="10sp"
-            android:textColor="@color/white"/>
-        <Button
-            android:id="@+id/btn_fengxiang"
-            android:layout_width="100dp"
-            android:layout_height="38dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/airfengsu"
-            android:text="风向"
-            android:textSize="10sp"
-            android:textColor="@color/white"/>
+            <Button
+                android:id="@+id/fengxiang"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/airfengsu"
+                android:text="风向"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -15,9 +15,9 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:layout_gravity="center_vertical"
-            android:text="门1"
+            android:text="相机"
             android:textColor="@color/black"
-            android:textSize="13.5sp" />
+            android:textSize="14sp" />
 
         <ToggleButton
             android:id="@+id/tg_onOff"

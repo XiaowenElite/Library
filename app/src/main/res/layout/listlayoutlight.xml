@@ -2,39 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="43.5dp"
+        android:layout_height="45dp"
         android:background="@color/white"
         android:orientation="horizontal">
+
         <TextView
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:id="@+id/tv_lightname"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:paddingLeft="20dp"
             android:layout_gravity="center_vertical"
-            android:text="灯1"
-            android:textColor="@color/black"
-            android:textSize="13.5sp" />
+            android:text="灯"
+            android:textColor="@color/gray_psw"
+            android:textSize="16sp" />
 
         <ToggleButton
+            android:layout_gravity="center_vertical"
             android:id="@+id/tg_onOff"
             android:layout_width="40dp"
             android:layout_height="23dp"
-            android:layout_marginLeft="100dp"
-            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/x45"
+            android:layout_weight="0"
             android:button="@drawable/ios7_btn"
             android:checked="false"
             android:text=""
             android:textOff=""
-            android:textOn=""
-           />
+            android:textOn="" />
 
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@drawable/fengexian"/>
+        android:layout_height="2dp"
+        android:background="@drawable/fengexian" />
 </LinearLayout>

@@ -1,6 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="edu.zju.com.activity.RoomNActivity">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/black">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="相机状态"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/btn_cameraBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="17.5dp"
+                android:background="@drawable/back" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/x650"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/juyuwangbeijing"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginTop="@dimen/y30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x20"
+                android:text="设备ID"
+                android:textColor="@color/gray_psw"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_cameraName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="#00000000"
+                android:gravity="right"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y3"
+            android:layout_gravity="center"
+            android:background="@drawable/fengexian" />
+
+        <LinearLayout
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginTop="@dimen/y30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x20"
+                android:text="用户名"
+                android:textColor="@color/gray_psw"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_doorName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="#00000000"
+                android:gravity="right"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y3"
+            android:layout_gravity="center"
+            android:background="@drawable/fengexian" />
+
+        <LinearLayout
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginTop="@dimen/y30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x20"
+                android:text="密码"
+                android:textColor="@color/gray_psw"
+                android:textSize="14sp" />
+
+            <EditText
+
+                android:id="@+id/et_userpsw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="#00000000"
+                android:gravity="right"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y3"
+            android:layout_gravity="center"
+            android:background="@drawable/fengexian" />
+
+
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y64"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/y30"
+            android:layout_marginTop="@dimen/y30"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="连接"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/x650"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y24"
+        android:background="@drawable/juyuwangbeijing"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_review"
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y64"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/y30"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="预览模式"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y64"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/y42"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="系统设置"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_video"
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y64"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/y30"
+            android:layout_marginTop="@dimen/y42"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="本地视频"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/x650"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y24"
+        android:background="@drawable/juyuwangbeijing"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_network"
+            android:layout_width="@dimen/x623"
+            android:layout_height="@dimen/y64"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/y30"
+            android:layout_marginTop="@dimen/y30"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="局域网搜索"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>
