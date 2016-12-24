@@ -4,7 +4,7 @@ package edu.zju.com.entity;
  * Created by bin on 2016/12/10.
  */
 
-public class DataInfo {
+public class DoorInfo {
     private String name;
     private String phy_addr_did;
     private String route;

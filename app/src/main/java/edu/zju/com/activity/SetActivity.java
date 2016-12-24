@@ -1,19 +1,26 @@
 package edu.zju.com.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import edu.zju.com.librarycontroller.R;
+import edu.zju.com.utils.HttpContant;
+import edu.zju.com.utils.UserUtils;
 
 /**
  * Created by bin on 2016/12/11.
  */
 
-public class SetActivity extends Activity implements View.OnClickListener{
+public class SetActivity extends Activity implements View.OnClickListener {
+
+    TextView tvAddr;
+    TextView tvPort;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,11 +29,11 @@ public class SetActivity extends Activity implements View.OnClickListener{
         init();
     }
 
-    private void init(){
-        TextView tvAddr = (TextView) findViewById(R.id.et_setAddr);
-        TextView tvPort = (TextView) findViewById(R.id.et_setPort);
+    private void init() {
+        tvAddr = (TextView) findViewById(R.id.et_setAddr);
+        tvPort = (TextView) findViewById(R.id.et_setPort);
         Button btnSetSave = (Button) findViewById(R.id.btn_setSave);
-        Button btnSetBack = (Button) findViewById(R.id.btn_setBack);
+        LinearLayout btnSetBack = (LinearLayout) findViewById(R.id.btn_setBack);
 
         btnSetSave.setOnClickListener(this);
         btnSetBack.setOnClickListener(this);
@@ -34,15 +41,35 @@ public class SetActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        Intent intent;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_setSave:
-
+                String ipaddress = tvAddr.getText().toString().trim();
+                String port = tvPort.getText().toString().trim();
+                if (UserUtils.isIpAddress(ipaddress)){
+                    if (UserUtils.isPort(port)) {
+                        //尝试请求 请求成功后在修改
+                        HttpContant.setServerAddr(ipaddress);
+                        HttpContant.setHttpPort(port);
+                        new SweetAlertDialog(edu.zju.com.activity.SetActivity.this,SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Success")
+                                .setContentText("您已经成功修改地址和端口号")
+                                .setConfirmText("确认")
+                                .show();
+                    }else {
+                        new SweetAlertDialog(edu.zju.com.activity.SetActivity.this,SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Error")
+                                .setContentText("端口号格式错误")
+                                .show();
+                    }
+                }else {
+                    new SweetAlertDialog(edu.zju.com.activity.SetActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error")
+                            .setContentText("Ip地址格式错误")
+                            .show();
+                }
                 break;
             case R.id.btn_setBack:
-                intent = new Intent();
-                intent.setClass(this, LibraryActivity.class);
-                startActivity(intent);
+                finish();
                 break;
             default:
                 break;

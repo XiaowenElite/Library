@@ -31,9 +31,7 @@ public class AboutActivity extends Activity implements View.OnClickListener{
         Intent intent;
         switch (view.getId()){
             case R.id.btn_aboutBack:
-                intent = new Intent(this,LibraryActivity.class);
-                startActivity(intent);
-
+                finish();
                 break;
             default:
                 break;

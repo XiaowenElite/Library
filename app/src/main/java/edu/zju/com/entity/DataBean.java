@@ -1,7 +1,7 @@
 package edu.zju.com.entity;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bin on 2016/12/9.
@@ -13,7 +13,7 @@ public class DataBean {
     private String action;
     private String type;
     private String count;
-    private List<DataInfo> data;
+    private List<Map<String,String>> data;
 
     public String getAction() {
         return action;
@@ -39,11 +39,11 @@ public class DataBean {
         this.count = count;
     }
 
-    public List<DataInfo> getData() {
+    public List<Map<String,String>> getData() {
         return data;
     }
 
-    public void setData(List<DataInfo> data) {
+    public void setData(List<Map<String,String>> data) {
         this.data = data;
     }
 }

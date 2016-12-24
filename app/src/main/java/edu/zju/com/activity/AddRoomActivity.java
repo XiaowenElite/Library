@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import edu.zju.com.activity.LibraryActivity;
 import edu.zju.com.librarycontroller.R;
 
 
@@ -44,25 +45,19 @@ public class AddRoomActivity extends Activity {
 		case R.id.btn_confirm:
 			
 			name = etName.getText().toString();
-		
-			
-			/*��Ҫ�����ִ���Library*/
 			Intent intent = new Intent(AddRoomActivity.this,
-					LibraryActivity.class);
-			 //Bundle������Я�����ݣ���������Map�����ڴ��key-value��ֵ����ʽ��ֵ 
+					edu.zju.com.activity.LibraryActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("roomname",name);
-			
-			//�˴�ʹ��putExtras�����ܷ�����Ӧ��ʹ��getExtras  
+
 			intent.putExtras(bundle);
 			startActivity(intent);
-			AddRoomActivity.this.finish();
+			finish();
 			break;
 		case R.id.btn_unconfirm:
 			Intent intent2 = new Intent();
 			intent2.setClass(AddRoomActivity.this, LibraryActivity.class);
 			startActivity(intent2);
-			/*ֱ�ӷ���ͼ���*/
 			break;
 
 		default:

@@ -1,6 +1,7 @@
 package edu.zju.com.entity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bin on 2016/12/10.
@@ -10,7 +11,7 @@ public class LightBean {
     private String action;
     private String type;
     private String count;
-    private List<LightInfo> data;
+    private List<Map<String,String>> data;
 
     public String getAction() {
         return action;
@@ -36,11 +37,11 @@ public class LightBean {
         this.count = count;
     }
 
-    public List<LightInfo> getData() {
+    public List<Map<String,String>> getData() {
         return data;
     }
 
-    public void setData(List<LightInfo> data) {
+    public void setData(List<Map<String,String>> data) {
         this.data = data;
     }
 }

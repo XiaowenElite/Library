@@ -1,8 +1,7 @@
-package edu.zju.com.activity;
+package edu.zju.com.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,7 @@ import java.util.Map;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
 import edu.zju.com.utils.JsonUtil;
+import edu.zju.com.utils.UserUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -30,10 +30,10 @@ import okhttp3.Response;
  */
 
 public class LightMyAdpter extends BaseAdapter {
-    private List<Map<String, Object>> data;
+    private List<Map<String, String>> data;
     private LayoutInflater layoutInflater;
     private Context context;
-    public LightMyAdpter(Context context, List<Map<String, Object>> data){
+    public LightMyAdpter(Context context, List<Map<String, String>> data){
         this.context=context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(context);
@@ -89,17 +89,17 @@ public class LightMyAdpter extends BaseAdapter {
 //        绑定数据
         zujian.name.setText((String) data.get(position).get("name"));
 //        zujian.nameBack.setBackgroundResource((Integer) data.get(position).get("nameBack"));
-        zujian.onOff.setBackgroundResource((Integer) data.get(position).get("onOff"));
+        zujian.onOff.setBackgroundResource(R.drawable.ios7_btn);
         //灯的状态
         String status = (String) data.get(position).get("cmd");
-        Log.i("lbk",status);
-        if(status.equals("open")){
-            zujian.onOff.setChecked(true);
-            Log.i("lbk","灯的状态为打开");
-        }
-        else if(status.equals("close")){
+        if(status!=null) {
+            if (status.equals("open")) {
+                zujian.onOff.setChecked(true);
+            } else if (status.equals("close")) {
+                zujian.onOff.setChecked(false);
+            }
+        }else {
             zujian.onOff.setChecked(false);
-            Log.i("lbk","灯的状态为关闭");
         }
 
         zujian.onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -108,7 +108,7 @@ public class LightMyAdpter extends BaseAdapter {
                 if (isChecked)
                 {
                     //同步设备时获取到的数据
-                    String username = (String) data.get(position).get("username");//从上页获取用户名
+                    String username = UserUtils.getUsername();//从上页获取用户名
                     String nameLocal = (String) data.get(position).get("name");
                     String phy_addr_did =(String) data.get(position).get("phy_addr_did");
                     String route =  (String) data.get(position).get("route");
@@ -120,7 +120,7 @@ public class LightMyAdpter extends BaseAdapter {
                 }
                 else{
                     //没选中状态
-                    String username = (String) data.get(position).get("username");//从上页获取用户名
+                    String username = UserUtils.getUsername();//从上页获取用户名
                     String nameLocal = (String) data.get(position).get("name");
                     String phy_addr_did =(String) data.get(position).get("phy_addr_did");
                     String route =  (String) data.get(position).get("route");
