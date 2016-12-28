@@ -1,10 +1,14 @@
 package edu.zju.com;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by bin on 16/11/17.

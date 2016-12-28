@@ -105,7 +105,8 @@ public class LigthFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
                         if (!isRefresh) {
                             LoadingProgress.getInstance().dismiss();
-                        }                        Map data = JsonUtil.fromJson(s,Map.class);
+                        }
+                        Map data = JsonUtil.fromJson(s,Map.class);
 
                         number = (String) data.get("count");
                         count = Integer.parseInt(number);//转化为整型

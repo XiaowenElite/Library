@@ -136,6 +136,19 @@
             android:text="保存"
             android:textColor="@color/white"
             android:textSize="14sp" />
+
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="注销用户"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </LinearLayout>
 
 

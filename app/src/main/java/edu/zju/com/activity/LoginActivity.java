@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import edu.zju.com.LibraryApp;
 import edu.zju.com.activity.ForgetPwdActivity;
 import edu.zju.com.activity.LibraryActivity;
 import edu.zju.com.activity.SignActivity;
@@ -69,11 +70,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         Log.i("xiaowen",width+"");
         Log.i("xiaowen",height+"");
 
-//        if (UserUtils.getUsername() != null) {
-//            Intent intent = new Intent(LoginActivity.this, LibraryActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (UserUtils.getUsername() != null) {
+            Intent intent = new Intent(LoginActivity.this, LibraryActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void init() {

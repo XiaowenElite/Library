@@ -33,7 +33,7 @@ public class LoadingProgress extends Dialog {
         surround = (ImageView) contentView.findViewById(R.id.surround);
     }
 
-    static public LoadingProgress getInstance(Context context) {
+       static public LoadingProgress getInstance(Context context) {
         loadingProgress = new LoadingProgress(context);
         return loadingProgress;
     }

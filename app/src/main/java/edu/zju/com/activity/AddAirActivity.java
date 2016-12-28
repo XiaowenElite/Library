@@ -121,7 +121,6 @@ public class AddAirActivity extends Activity implements OnClickListener {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                             finish();
-
                                         }
                                     })
                                     .show();

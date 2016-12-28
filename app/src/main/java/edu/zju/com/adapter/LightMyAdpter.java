@@ -1,7 +1,10 @@
 package edu.zju.com.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.lzy.okgo.OkGo;
@@ -18,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.zju.com.activity.ModifyAirActivity;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
 import edu.zju.com.utils.JsonUtil;
@@ -33,6 +38,9 @@ public class LightMyAdpter extends BaseAdapter {
     private List<Map<String, String>> data;
     private LayoutInflater layoutInflater;
     private Context context;
+
+    private ViewHolder mHolder;
+
     public LightMyAdpter(Context context, List<Map<String, String>> data){
         this.context=context;
         this.data = data;
@@ -42,8 +50,7 @@ public class LightMyAdpter extends BaseAdapter {
     * 组件集合，对应list.xml中的控件
     * @author bin
     * */
-    public  final  class Zujian{
-        public TextView nameBack;
+    public  final  class ViewHolder{
         public TextView name;
         public ToggleButton onOff;
     }
@@ -74,35 +81,32 @@ public class LightMyAdpter extends BaseAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Zujian zujian = null;
+        mHolder = new ViewHolder();
         if(convertView==null){
-            zujian = new Zujian();
             //获得组件，实例化组件
             convertView= layoutInflater.inflate(R.layout.listlayoutlight,null);//对应list布局文件
-            zujian.name= (TextView) convertView.findViewById(R.id.tv_lightname);
-//            zujian.nameBack = (TextView) convertView.findViewById(R.id.tv_nameBack);
-            zujian.onOff = (ToggleButton) convertView.findViewById(R.id.tg_onOff);
-            convertView.setTag(zujian);
+            mHolder.name= (TextView) convertView.findViewById(R.id.tv_lightname);
+            mHolder.onOff = (ToggleButton) convertView.findViewById(R.id.tg_onOff);
+            convertView.setTag(mHolder);
         }else {
-            zujian = (Zujian) convertView.getTag();
+            mHolder = (ViewHolder) convertView.getTag();
         }
 //        绑定数据
-        zujian.name.setText((String) data.get(position).get("name"));
-//        zujian.nameBack.setBackgroundResource((Integer) data.get(position).get("nameBack"));
-        zujian.onOff.setBackgroundResource(R.drawable.ios7_btn);
+        mHolder.name.setText((String) data.get(position).get("name"));
+        mHolder.onOff.setBackgroundResource(R.drawable.ios7_btn);
         //灯的状态
         String status = (String) data.get(position).get("cmd");
         if(status!=null) {
             if (status.equals("open")) {
-                zujian.onOff.setChecked(true);
+                mHolder.onOff.setChecked(true);
             } else if (status.equals("close")) {
-                zujian.onOff.setChecked(false);
+                mHolder.onOff.setChecked(false);
             }
         }else {
-            zujian.onOff.setChecked(false);
+            mHolder.onOff.setChecked(false);
         }
 
-        zujian.onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mHolder.onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked)
@@ -132,8 +136,89 @@ public class LightMyAdpter extends BaseAdapter {
             }
         });
 
+
+        mHolder.name.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i("xiaowen", "长按时间");
+
+                final String[] listItems = {"修改", "删除"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+
+                final String username = UserUtils.getUsername();//从上页获取用户名
+                final String nameLocal = data.get(position).get("name");
+                final String phy_addr_did = data.get(position).get("phy_addr_did");
+                final String route = data.get(position).get("route");
+
+                builder.setItems(listItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (listItems[which].equals("修改")) {
+                            Log.i("xiaowen", "修改状态");
+                            Intent intent = new Intent(context, ModifyAirActivity.class);
+                            intent.putExtra("name",nameLocal);
+                            intent.putExtra("phy_addr_did",phy_addr_did);
+                            intent.putExtra("route",route);
+                            context.startActivity(intent);
+                        } else {
+                            Log.i("xiaowen", "删除数据");
+                            deleteLight(position, username, "light", nameLocal, phy_addr_did, route);
+                        }
+                    }
+
+
+                });
+                builder.create().show();
+                return true;
+            }
+        });
+
         return convertView;
     }
+
+    private void deleteLight(final int position, String username, String action,
+                             String nameLocal, String phy_addr_did, String route) {
+        final HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", username);
+        params.put("name", nameLocal);
+        params.put("phy_addr_did", phy_addr_did);
+        params.put("route", route);
+        params.put("action", action);
+        String JsonString = JsonUtil.toJson(params);
+
+        OkGo.post(HttpContant.getUnencryptionPath() + "doorRemove")//
+                .tag(this)//
+                .upJson(JsonString)//
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                        Map<String, String> resultEntity = JsonUtil.fromJson(s, Map.class);
+                        String result = resultEntity.get("result");
+
+                        if (result.equals("success")) {
+                            Log.i("xiaowen", "灯删除成功");
+                            data.remove(position);
+                            notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
+                        //这里回调上传进度(该回调在主线程,可以直接更新ui)
+                        Log.i("test", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        Log.i("xiaowen", "error");
+                    }
+                });
+    }
+
     private void testpost(String params1,String params2,String params3,String params4,String params5){
         HashMap<String, String> params = new HashMap<String, String>();
 

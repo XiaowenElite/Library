@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import edu.zju.com.LibraryApp;
 import edu.zju.com.activity.AboutActivity;
 import edu.zju.com.activity.SetActivity;
 import edu.zju.com.librarycontroller.R;
@@ -19,12 +20,14 @@ public class LibraryActivity extends Activity implements OnClickListener{
 	private Button btnScene;
 	private Button btnSet;
 	private Button btnHelp;
+	private Button btnTem;
+	private Button btnsafe;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.library);
-
 		init();
 	}
 	private void init(){
@@ -32,11 +35,13 @@ public class LibraryActivity extends Activity implements OnClickListener{
 		btnScene = (Button) this.findViewById(R.id.btn_scene);
 		btnSet = (Button) this.findViewById(R.id.btn_set);
 		btnHelp = (Button) this.findViewById(R.id.btn_help);
+		btnTem = (Button)findViewById(R.id.btn_tem);
 
 		btnRoom.setOnClickListener(this);
 		btnScene.setOnClickListener(this);
 		btnSet.setOnClickListener(this);
 		btnHelp.setOnClickListener(this);
+		btnTem.setOnClickListener(this);
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class LibraryActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 			case R.id.btn_room:
 				//传username
-				intent = new Intent(edu.zju.com.activity.LibraryActivity.this, RoomNActivity.class);
+				intent = new Intent(LibraryActivity.this, RoomNActivity.class);
 				startActivity(intent);
 				break;
 			case R.id.btn_scene:
@@ -62,7 +67,10 @@ public class LibraryActivity extends Activity implements OnClickListener{
 				intent.setClass(edu.zju.com.activity.LibraryActivity.this, AboutActivity.class);
 				startActivity(intent);
 				break;
-
+			case R.id.btn_tem:
+				intent = new Intent(LibraryActivity.this,EnviormentActivity.class);
+				startActivity(intent);
+				break;
 			default:
 				break;
 		}
