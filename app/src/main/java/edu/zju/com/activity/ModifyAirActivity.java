@@ -69,6 +69,11 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
         modify = (Button)findViewById(R.id.air_modify);
         cancle = (Button)findViewById(R.id.air_cancle);
 
+
+        mf_name.setText(name);
+        mf_addr.setText(addr);
+        mf_route.setText(route);
+
         back.setOnClickListener(this);
         modify.setOnClickListener(this);
         cancle.setOnClickListener(this);
@@ -109,7 +114,7 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
             params.put("route_edit", airroute);
             String JsonString = JsonUtil.toJson(params);
 
-            OkGo.post(HttpContant.getUnencryptionPath() + "doorEdit")//
+            OkGo.post(HttpContant.getUnencryptionPath() + "airEdit")//
                     .tag(this)//
                     .upJson(JsonString)//
                     .execute(new StringCallback() {
@@ -120,6 +125,7 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
                             String result = resultEntity.get("result");
 
                             if (result.equals("success")) {
+                                UserUtils.setCurrentPage("2");
                                 new SweetAlertDialog(ModifyAirActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("Success")
                                         .setContentText("您已经成功修改空调")
@@ -132,7 +138,7 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
                                         })
                                         .show();
                             } else {
-                                Toast.makeText(ModifyAirActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ModifyAirActivity.this,result.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 

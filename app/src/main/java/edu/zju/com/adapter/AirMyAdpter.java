@@ -244,7 +244,7 @@ public class AirMyAdpter extends BaseAdapter {
                                   final String route, final String airpower) {
         final HashMap<String, String> params = new HashMap<String, String>();
 
-        params.put("username", username);
+        params.put("username", UserUtils.getUsername());
         params.put("name", airname);
         params.put("phy_addr_did", addr);
         params.put("route", route);

@@ -63,6 +63,9 @@ public class RoomNActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onRestart() {
         super.onRestart();
+        if(lbFragmentAdapter!=null){
+            lbFragmentAdapter.notifyDataSetChanged();
+        }
         currentPage = UserUtils.getCurrentPage();
         switch (Integer.parseInt(currentPage)) {
             case 0:

@@ -35,6 +35,15 @@ public class UserUtils {
         return Operator.getValueFormPreferences("currentpage","0");
     }
 
+
+    public static void setCurrentEmPage(String currentPage){
+        Operator.setValueToPreferences("currentempage",currentPage);
+    }
+
+    public static String getEmCurrentPage(){
+        return Operator.getValueFormPreferences("currentempage","0");
+    }
+
     public static void setAirname(String airname){
         Operator.setValueToPreferences("airname",airname);
     }

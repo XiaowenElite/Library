@@ -17,12 +17,39 @@ import java.util.List;
 
 public class LibraryApp extends Application {
 
-
+    private List<Activity> mList = new LinkedList<Activity>();
+    private static LibraryApp instance;
     private static Context context;
 
     public static Context getContext() {
 
         return context;
+    }
+
+
+    public synchronized static LibraryApp getInstance() {
+        if (null == instance) {
+            instance = new LibraryApp();
+        }
+        return instance;
+    }
+
+    // add Activity
+    public void addActivity(Activity activity) {
+        mList.add(activity);
+    }
+
+    public void exit() {
+        try {
+            for (Activity activity : mList) {
+                if (activity != null)
+                    activity.finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //  System.exit(0);//去掉这个
+        }
     }
 
     @Override

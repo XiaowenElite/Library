@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.zju.com.activity.ModifyAirActivity;
+import edu.zju.com.activity.ModifyLightActivity;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
 import edu.zju.com.utils.JsonUtil;
@@ -156,7 +156,7 @@ public class LightMyAdpter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         if (listItems[which].equals("修改")) {
                             Log.i("xiaowen", "修改状态");
-                            Intent intent = new Intent(context, ModifyAirActivity.class);
+                            Intent intent = new Intent(context, ModifyLightActivity.class);
                             intent.putExtra("name",nameLocal);
                             intent.putExtra("phy_addr_did",phy_addr_did);
                             intent.putExtra("route",route);
@@ -187,7 +187,7 @@ public class LightMyAdpter extends BaseAdapter {
         params.put("action", action);
         String JsonString = JsonUtil.toJson(params);
 
-        OkGo.post(HttpContant.getUnencryptionPath() + "doorRemove")//
+        OkGo.post(HttpContant.getUnencryptionPath() + "lightRemove")//
                 .tag(this)//
                 .upJson(JsonString)//
                 .execute(new StringCallback() {

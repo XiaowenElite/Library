@@ -67,6 +67,11 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
         modify = (Button) findViewById(R.id.door_modify);
         cancle = (Button) findViewById(R.id.door_cancle);
 
+
+        mf_name.setText(name);
+        mf_addr.setText(addr);
+        mf_route.setText(route);
+
         back.setOnClickListener(this);
         modify.setOnClickListener(this);
         cancle.setOnClickListener(this);
@@ -119,6 +124,8 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
                             String result = resultEntity.get("result");
 
                             if (result.equals("success")) {
+                                UserUtils.setCurrentPage("0");
+
                                 new SweetAlertDialog(ModifyDoorActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("Success")
                                         .setContentText("您已经成功修改门")
@@ -131,7 +138,7 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
                                         })
                                         .show();
                             } else {
-                                Toast.makeText(ModifyDoorActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ModifyDoorActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 

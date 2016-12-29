@@ -2,7 +2,6 @@ package edu.zju.com.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +68,10 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
         modify = (Button)findViewById(R.id.light_modify);
         cancle = (Button)findViewById(R.id.light_cancle);
 
+        mf_name.setText(name);
+        mf_addr.setText(addr);
+        mf_route.setText(route);
+
         back.setOnClickListener(this);
         modify.setOnClickListener(this);
         cancle.setOnClickListener(this);
@@ -110,7 +113,7 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
             params.put("route_edit", lightroute);
             String JsonString = JsonUtil.toJson(params);
 
-            OkGo.post(HttpContant.getUnencryptionPath() + "doorEdit")//
+            OkGo.post(HttpContant.getUnencryptionPath() + "lightEdit")//
                     .tag(this)//
                     .upJson(JsonString)//
                     .execute(new StringCallback() {
@@ -121,6 +124,8 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
                             String result = resultEntity.get("result");
 
                             if (result.equals("success")) {
+                                UserUtils.setCurrentPage("1");
+
                                 new SweetAlertDialog(ModifyLightActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("Success")
                                         .setContentText("您已经成功修改灯")
@@ -133,7 +138,7 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
                                         })
                                         .show();
                             } else {
-                                Toast.makeText(ModifyLightActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ModifyLightActivity.this,result.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 

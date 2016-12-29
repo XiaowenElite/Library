@@ -124,9 +124,9 @@ public class AirFragment extends Fragment implements SwipeRefreshLayout.OnRefres
                             airInfoList = airBean.getData();
                             if (airInfoList!=null) {
                                 listView.setAdapter(new AirMyAdpter(context, airInfoList));
-                                mSwipeLayout.setRefreshing(false);
                             }
                         }
+                        mSwipeLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -144,8 +144,6 @@ public class AirFragment extends Fragment implements SwipeRefreshLayout.OnRefres
                         OkGo.getInstance().cancelTag(this);
                         mSwipeLayout.setRefreshing(false);
                     }
-
-
                 });
     }
 

@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import edu.zju.com.LibraryApp;
-import edu.zju.com.activity.AboutActivity;
-import edu.zju.com.activity.SetActivity;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.UserUtils;
 
@@ -28,6 +26,7 @@ public class LibraryActivity extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.library);
+		LibraryApp.getInstance().addActivity(LibraryActivity.this);
 		init();
 	}
 	private void init(){

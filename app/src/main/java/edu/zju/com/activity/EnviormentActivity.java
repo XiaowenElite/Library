@@ -1,5 +1,6 @@
 package edu.zju.com.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import edu.zju.com.Fragment.LightSenceFragment;
 import edu.zju.com.Fragment.TemHumidityFragment;
 import edu.zju.com.adapter.LbFragmentAdapter;
 import edu.zju.com.librarycontroller.R;
+import edu.zju.com.utils.UserUtils;
 
 public class EnviormentActivity extends FragmentActivity implements View.OnClickListener,ViewPager.OnPageChangeListener{
 
@@ -22,9 +25,14 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
     private ViewPager myViewPager;
     private Button btntemp;
     private Button btnlight;
-    private Button back;
+    private LinearLayout back;
 
     TextPaint tp;
+
+
+    private String currentPage;
+
+    private int index = 0;
 
 
     LbFragmentAdapter lbFragmentAdapter = null;
@@ -45,7 +53,32 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
         }
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(lbFragmentAdapter!=null){
+            lbFragmentAdapter.notifyDataSetChanged();
+        }
+        currentPage = UserUtils.getCurrentPage();
+        switch (Integer.parseInt(currentPage)) {
+            case 0:
+                myViewPager.setCurrentItem(0);
+                index = 0;
+                break;
+            case 1:
+                myViewPager.setCurrentItem(1);
+                index = 1;
+                break;
+            case 2:
+                myViewPager.setCurrentItem(2);
+                index = 2;
+                break;
+            case 3:
+                myViewPager.setCurrentItem(3);
+                index = 3;
+                break;
+        }
+    }
 
     private void init(){
 
@@ -53,7 +86,7 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
 
         btntemp = (Button)findViewById(R.id.btn_temhumidity);
         btnlight = (Button)findViewById(R.id.btn_lightSence);
-        back = (Button)findViewById(R.id.mf_doorBack);
+        back = (LinearLayout)findViewById(R.id.btn_Back);
 
         btntemp.setOnClickListener(this);
         btnlight.setOnClickListener(this);
@@ -86,7 +119,30 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
                 break;
             case R.id.btn_Back:
                 finish();
+            case R.id.btn_adddevice:
+                //判断当前在那个页面
+                switch (index) {
+                    case 0:
+                        addTemphum();
+                        break;
+                    case 1:
+                        addLightsense();
+                        break;
+                }
+            default:
+                break;
         }
+    }
+
+    public void addTemphum() {
+        //传username
+        Intent intent = new Intent(EnviormentActivity.this, AddtemphumActivity.class);
+        startActivity(intent);
+    }
+
+    public void addLightsense() {
+        Intent intent = new Intent(EnviormentActivity.this, AddLightSenseActivity.class);
+        startActivity(intent);
     }
 
     @Override

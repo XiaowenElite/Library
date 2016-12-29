@@ -105,8 +105,9 @@ public class TemHumidityFragment extends Fragment implements SwipeRefreshLayout.
                         if (!count.equals("0")) {
                             list = temHumBean.getData();
                             listView.setAdapter(new TemHumAdapter(getActivity(), temHumBean.getData()));
-                            mSwipeLayout.setRefreshing(false);
                         }
+
+                        mSwipeLayout.setRefreshing(false);
                     }
 
                     @Override

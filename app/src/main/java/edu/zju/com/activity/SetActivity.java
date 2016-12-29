@@ -31,6 +31,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setlayout);
+        LibraryApp.getInstance().addActivity(SetActivity.this);
         init();
     }
 
@@ -82,7 +83,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
                 UserUtils.setPassword(null);
                 Intent intent = new Intent(SetActivity.this,LoginActivity.class);
                 startActivity(intent);
-                finish();
+                LibraryApp.getInstance().exit();
             default:
                 break;
         }

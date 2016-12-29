@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -114,10 +113,8 @@ public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(context, "门同步成功", Toast.LENGTH_SHORT).show();
-
-
                         if (!isRefresh) {
                             LoadingProgress.getInstance().dismiss();
                         }
@@ -129,8 +126,7 @@ public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             DataBean dataBean = JsonUtil.fromJson(s, DataBean.class);//拿到Json字符串S,用Gson直接解析成对象
                             dataInfoList = dataBean.getData();
                             listView.setAdapter(new DoorAdpter(getActivity(), dataInfoList));
-                            mSwipeLayout.setRefreshing(false);
-                        }
+}
                     }
 
                     @Override

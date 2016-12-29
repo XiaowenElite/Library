@@ -15,10 +15,8 @@ import com.lzy.okgo.callback.StringCallback;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.zju.com.adapter.LightSenseAdapter;
-import edu.zju.com.entity.DataBean;
 import edu.zju.com.entity.LightSenseBean;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
@@ -101,8 +99,10 @@ public class LightSenceFragment extends Fragment implements SwipeRefreshLayout.O
                         if (!count.equals("0")) {
                             dataInfoList = data.getData();
                             listView.setAdapter(new LightSenseAdapter(getActivity(), dataInfoList));
-                            mSwipeLayout.setRefreshing(false);
                         }
+
+                        mSwipeLayout.setRefreshing(false);
+
                     }
 
                     @Override

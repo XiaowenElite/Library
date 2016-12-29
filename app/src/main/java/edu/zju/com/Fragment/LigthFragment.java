@@ -114,9 +114,8 @@ public class LigthFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                             LightBean lightBean = JsonUtil.fromJson(s, LightBean.class);//拿到Json字符串S,用Gson直接解析成对象
                             lightInfoList = lightBean.getData();
                             listView.setAdapter(new LightMyAdpter(getActivity(), lightInfoList));
-                            mSwipeLayout.setRefreshing(false);
-
                         }
+                        mSwipeLayout.setRefreshing(false);
                     }
                     @Override
                     public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
