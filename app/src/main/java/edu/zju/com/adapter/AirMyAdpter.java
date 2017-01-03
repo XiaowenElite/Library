@@ -158,9 +158,9 @@ public class AirMyAdpter extends BaseAdapter {
                         if (listItems[which].equals("修改")) {
                             Log.i("xiaowen", "修改状态");
                             Intent intent = new Intent(mContext, ModifyAirActivity.class);
-                            intent.putExtra("name",nameLocal);
-                            intent.putExtra("phy_addr_did",phy_addr_did);
-                            intent.putExtra("route",route);
+                            intent.putExtra("name", nameLocal);
+                            intent.putExtra("phy_addr_did", phy_addr_did);
+                            intent.putExtra("route", route);
                             mContext.startActivity(intent);
                         } else {
                             Log.i("xiaowen", "删除数据");
@@ -220,10 +220,11 @@ public class AirMyAdpter extends BaseAdapter {
 
                         if (result.equals("success")) {
                             Log.i("xiaowen", "空调删除成功");
+                            Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
                             data.remove(position);
                             notifyDataSetChanged();
                         } else {
-                            Toast.makeText(mContext, "删除失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "请求失败,请重新尝试", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -236,6 +237,7 @@ public class AirMyAdpter extends BaseAdapter {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         Log.i("xiaowen", "error");
+                        Toast.makeText(mContext, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -277,6 +279,7 @@ public class AirMyAdpter extends BaseAdapter {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         Log.i("xiaowen", "error");
+                        Toast.makeText(mContext, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
                     }
                 });
     }

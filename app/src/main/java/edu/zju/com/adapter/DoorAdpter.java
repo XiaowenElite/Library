@@ -150,9 +150,9 @@ public class DoorAdpter extends BaseAdapter {
                             Log.i("xiaowen", "修改状态");
 
                             Intent intent = new Intent(context, ModifyDoorActivity.class);
-                            intent.putExtra("name",nameLocal);
-                            intent.putExtra("phy_addr_did",phy_addr_did);
-                            intent.putExtra("route",route);
+                            intent.putExtra("name", nameLocal);
+                            intent.putExtra("phy_addr_did", phy_addr_did);
+                            intent.putExtra("route", route);
                             context.startActivity(intent);
                         } else {
                             Log.i("xiaowen", "删除数据");
@@ -189,10 +189,11 @@ public class DoorAdpter extends BaseAdapter {
 
                         if (result.equals("success")) {
                             Log.i("xiaowen", "门删除成功");
+                            Toast.makeText(context, "门删除成功", Toast.LENGTH_SHORT).show();
                             data.remove(position);
                             notifyDataSetChanged();
                         } else {
-                            Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "请求失败,请重新尝试", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -205,6 +206,7 @@ public class DoorAdpter extends BaseAdapter {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         Log.i("xiaowen", "error--这是测试是否刷新");
+                        Toast.makeText(context, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -230,11 +232,11 @@ public class DoorAdpter extends BaseAdapter {
                             String result = (String) data.get("result");
                             if (result.equals("success")) {
                                 new SweetAlertDialog(context)
-                                        .setTitleText("修改成功")
+                                        .setTitleText("门状态改变")
                                         .show();
                             }
                         } else {
-                            Toast.makeText(context, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "请求失败,请重新尝试", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -247,6 +249,7 @@ public class DoorAdpter extends BaseAdapter {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         Log.i("xiaowen", "error");
+                        Toast.makeText(context, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
                     }
                 });
     }

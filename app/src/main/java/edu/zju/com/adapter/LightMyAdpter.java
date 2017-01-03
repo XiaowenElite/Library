@@ -41,20 +41,20 @@ public class LightMyAdpter extends BaseAdapter {
 
     private ViewHolder mHolder;
 
-    public LightMyAdpter(Context context, List<Map<String, String>> data){
-        this.context=context;
+    public LightMyAdpter(Context context, List<Map<String, String>> data) {
+        this.context = context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(context);
     }
+
     /*
     * 组件集合，对应list.xml中的控件
     * @author bin
     * */
-    public  final  class ViewHolder{
+    public final class ViewHolder {
         public TextView name;
         public ToggleButton onOff;
     }
-
 
 
     @Override
@@ -82,13 +82,13 @@ public class LightMyAdpter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         mHolder = new ViewHolder();
-        if(convertView==null){
+        if (convertView == null) {
             //获得组件，实例化组件
-            convertView= layoutInflater.inflate(R.layout.listlayoutlight,null);//对应list布局文件
-            mHolder.name= (TextView) convertView.findViewById(R.id.tv_lightname);
+            convertView = layoutInflater.inflate(R.layout.listlayoutlight, null);//对应list布局文件
+            mHolder.name = (TextView) convertView.findViewById(R.id.tv_lightname);
             mHolder.onOff = (ToggleButton) convertView.findViewById(R.id.tg_onOff);
             convertView.setTag(mHolder);
-        }else {
+        } else {
             mHolder = (ViewHolder) convertView.getTag();
         }
 //        绑定数据
@@ -96,42 +96,35 @@ public class LightMyAdpter extends BaseAdapter {
         mHolder.onOff.setBackgroundResource(R.drawable.ios7_btn);
         //灯的状态
         String status = (String) data.get(position).get("cmd");
-        if(status!=null) {
+        if (status != null) {
             if (status.equals("open")) {
                 mHolder.onOff.setChecked(true);
             } else if (status.equals("close")) {
                 mHolder.onOff.setChecked(false);
             }
-        }else {
+        } else {
             mHolder.onOff.setChecked(false);
         }
 
         mHolder.onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked)
-                {
+                String username = UserUtils.getUsername();//从上页获取用户名
+                String nameLocal = (String) data.get(position).get("name");
+                String phy_addr_did = (String) data.get(position).get("phy_addr_did");
+                String route = (String) data.get(position).get("route");
+
+                if (isChecked) {
                     //同步设备时获取到的数据
-                    String username = UserUtils.getUsername();//从上页获取用户名
-                    String nameLocal = (String) data.get(position).get("name");
-                    String phy_addr_did =(String) data.get(position).get("phy_addr_did");
-                    String route =  (String) data.get(position).get("route");
                     String cmd = "open";
+                    controlLight(username, nameLocal, phy_addr_did, route, cmd);
+                    Log.i("liaobinkai", "kaideng");
 
-                    testpost(username,nameLocal,phy_addr_did,route,cmd);
-                    Log.i("liaobinkai","kaideng");
-
-                }
-                else{
+                } else {
                     //没选中状态
-                    String username = UserUtils.getUsername();//从上页获取用户名
-                    String nameLocal = (String) data.get(position).get("name");
-                    String phy_addr_did =(String) data.get(position).get("phy_addr_did");
-                    String route =  (String) data.get(position).get("route");
                     String cmd = "close";
-
-                    testpost(username,nameLocal,phy_addr_did,route,cmd);
-                    Log.i("liaobinkai","guandeng");
+                    controlLight(username, nameLocal, phy_addr_did, route, cmd);
+                    Log.i("liaobinkai", "guandeng");
                 }
             }
         });
@@ -157,9 +150,9 @@ public class LightMyAdpter extends BaseAdapter {
                         if (listItems[which].equals("修改")) {
                             Log.i("xiaowen", "修改状态");
                             Intent intent = new Intent(context, ModifyLightActivity.class);
-                            intent.putExtra("name",nameLocal);
-                            intent.putExtra("phy_addr_did",phy_addr_did);
-                            intent.putExtra("route",route);
+                            intent.putExtra("name", nameLocal);
+                            intent.putExtra("phy_addr_did", phy_addr_did);
+                            intent.putExtra("route", route);
                             context.startActivity(intent);
                         } else {
                             Log.i("xiaowen", "删除数据");
@@ -199,6 +192,7 @@ public class LightMyAdpter extends BaseAdapter {
 
                         if (result.equals("success")) {
                             Log.i("xiaowen", "灯删除成功");
+                            Toast.makeText(context, "灯删除成功", Toast.LENGTH_SHORT).show();
                             data.remove(position);
                             notifyDataSetChanged();
                         } else {
@@ -215,11 +209,12 @@ public class LightMyAdpter extends BaseAdapter {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         Log.i("xiaowen", "error");
+                        Toast.makeText(context, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    private void testpost(String params1,String params2,String params3,String params4,String params5){
+    private void controlLight(String params1, String params2, String params3, String params4, String params5) {
         HashMap<String, String> params = new HashMap<String, String>();
 
         params.put("username", params1);
@@ -228,22 +223,25 @@ public class LightMyAdpter extends BaseAdapter {
         params.put("route", params4);
         params.put("cmd", params5);
 
-        String  JsonString = JsonUtil.toJson(params);
+        String JsonString = JsonUtil.toJson(params);
 //okgo每次使用注意在全局文件中初始化
-        OkGo.post(HttpContant.getUnencryptionPath()+"lightControl")//
+        OkGo.post(HttpContant.getUnencryptionPath() + "lightControl")//
                 .tag(this)//
                 .upJson(JsonString)//
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         //上传成功
-                        Log.i("xiaowen","result"+s);
+                        Log.i("xiaowen", "result" + s);
                         //转换成Map
-                        Map data = JsonUtil.fromJson(s,Map.class);
+                        Map data = JsonUtil.fromJson(s, Map.class);
                         //get方法直接获取key对应的value
                         String result = (String) data.get("result");
-                        if(result.equals("success")){
-                            Log.i("lbk","门操作成功");
+                        if (result.equals("success")) {
+                            Log.i("lbk", "灯操作成功");
+                            Toast.makeText(context, "灯操作成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "灯操作失败", Toast.LENGTH_SHORT).show();
                         }
                         Log.i("lbk","result="+result);
 
@@ -257,7 +255,8 @@ public class LightMyAdpter extends BaseAdapter {
 
                     @Override
                     public void onError(Call call, Response response, Exception e) {
-                        Log.i("xiaowen","error");
+                        Log.i("xiaowen", "error");
+                        Toast.makeText(context, "服务器无响应,请稍后尝试", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
