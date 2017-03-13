@@ -31,6 +31,8 @@ public class AddAirActivity extends Activity implements OnClickListener {
     private EditText etAirName;
     private EditText etAirPhyAddr;
     private EditText etAirLine;
+    private EditText etPowerAddr;
+    private EditText etPowerLine;
 
     private LinearLayout btnAirBack;
     private Button btnConfirmD;
@@ -55,6 +57,8 @@ public class AddAirActivity extends Activity implements OnClickListener {
         etAirName = (EditText) this.findViewById(R.id.et_airName);
         etAirPhyAddr = (EditText) this.findViewById(R.id.et_airPhyAddr);
         etAirLine = (EditText) this.findViewById(R.id.et_airline);
+        etPowerAddr = (EditText)findViewById(R.id.et_poweraddr);
+        etPowerLine = (EditText)findViewById(R.id.et_powerline);
 
         btnAirBack = (LinearLayout) this.findViewById(R.id.btn_airBack);
         btnConfirmD = (Button) this.findViewById(R.id.saveAir);
@@ -73,8 +77,12 @@ public class AddAirActivity extends Activity implements OnClickListener {
                 String airName = etAirName.getText().toString();
                 String airPhyAddr = etAirPhyAddr.getText().toString();
                 String airLine = etAirLine.getText().toString();
-                if (!airName.trim().equals("") && !airPhyAddr.trim().equals("") && !airLine.trim().equals("")) {
-                    addAirs(username, type, airName, airPhyAddr, airLine);
+                String powerAddr = etPowerAddr.getText().toString();
+                String powerLine = etPowerLine.getText().toString();
+
+                if (!airName.trim().equals("") && !airPhyAddr.trim().equals("") && !airLine.trim().equals("")
+                        &&!powerAddr.trim().equals("")&&!powerLine.trim().equals("")) {
+                    addAirs(username, type, airName, airPhyAddr, airLine,powerAddr,powerLine);
                 } else {
                     Toast.makeText(AddAirActivity.this, "请填写全部信息", Toast.LENGTH_SHORT).show();
                 }
@@ -92,13 +100,16 @@ public class AddAirActivity extends Activity implements OnClickListener {
         }
     }
 
-    private void addAirs(String params1, String params2, String params3, String params4, String params5) {
+    private void addAirs(String params1, String params2, String params3, String params4,
+                         String params5,String powerAddr,String powerLine) {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", params1);
         params.put("type", params2);
         params.put("name", params3);
         params.put("phy_addr_did", params4);
         params.put("route", params5);
+        params.put("pow_addr_did",powerAddr);
+        params.put("pow_route",powerLine);
         String JsonString = JsonUtil.toJson(params);
 //okgo每次使用注意在全局文件中初始化
         OkGo.post(HttpContant.getUnencryptionPath() + "airAdd")//
@@ -125,7 +136,7 @@ public class AddAirActivity extends Activity implements OnClickListener {
                                     })
                                     .show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "保存失败，请重新添加", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "保存失败:"+result.toString(), Toast.LENGTH_SHORT).show();
                         }
 
                     }

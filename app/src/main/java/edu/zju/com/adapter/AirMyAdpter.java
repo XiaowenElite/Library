@@ -151,6 +151,9 @@ public class AirMyAdpter extends BaseAdapter {
                 final String nameLocal = data.get(position).get("name");
                 final String phy_addr_did = data.get(position).get("phy_addr_did");
                 final String route = data.get(position).get("route");
+                final String pow_addr_did = data.get(position).get("pow_addr_did");
+                final String pow_route = data.get(position).get("pow_route");
+
 
                 builder.setItems(listItems, new DialogInterface.OnClickListener() {
                     @Override
@@ -161,6 +164,8 @@ public class AirMyAdpter extends BaseAdapter {
                             intent.putExtra("name", nameLocal);
                             intent.putExtra("phy_addr_did", phy_addr_did);
                             intent.putExtra("route", route);
+                            intent.putExtra("pow_addr_did", pow_addr_did);
+                            intent.putExtra("pow_route", pow_route);
                             mContext.startActivity(intent);
                         } else {
                             Log.i("xiaowen", "删除数据");

@@ -40,6 +40,10 @@ public class TemHumidityFragment extends Fragment implements SwipeRefreshLayout.
 
     private List<TemHumBean.DataBean> list = null;
 
+    public TemHumidityFragment(){
+
+    }
+
     public TemHumidityFragment(Context context) {
         this.context = context;
     }
@@ -96,6 +100,7 @@ public class TemHumidityFragment extends Fragment implements SwipeRefreshLayout.
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        mSwipeLayout.setRefreshing(false);
                         if (!isRefresh) {
                             LoadingProgress.getInstance().dismiss();
                         }
@@ -107,7 +112,6 @@ public class TemHumidityFragment extends Fragment implements SwipeRefreshLayout.
                             listView.setAdapter(new TemHumAdapter(getActivity(), temHumBean.getData()));
                         }
 
-                        mSwipeLayout.setRefreshing(false);
                     }
 
                     @Override

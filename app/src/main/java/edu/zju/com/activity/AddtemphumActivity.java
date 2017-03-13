@@ -119,7 +119,7 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 									.show();
 						}
 						else{
-							Toast.makeText(AddtemphumActivity.this,"添加失败",Toast.LENGTH_SHORT).show();
+							//Toast.makeText(AddtemphumActivity.this,"添加失败",Toast.LENGTH_SHORT).show();
 							Toast.makeText(getApplicationContext(),data.get("result")+"",Toast.LENGTH_SHORT).show();
 						}
 

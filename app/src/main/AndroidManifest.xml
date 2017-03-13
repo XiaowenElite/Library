@@ -121,6 +121,18 @@
             android:name="edu.zju.com.activity.ModifyLightActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="edu.zju.com.activity.EnviormentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <activity android:name="edu.zju.com.activity.AddtemphumActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            />
+        <activity android:name="edu.zju.com.activity.AddLightSenseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -211,7 +223,6 @@
             android:process=":pushservice" />
         <!-- 个推SDK配置结束 -->
 
-        <activity android:name="edu.zju.com.activity.EnviormentActivity"></activity>
     </application>
 
 </manifest>

@@ -67,7 +67,7 @@ public class LightSenseAdapter extends BaseAdapter {
             mHolder.value.setText("***");
         }
 
-        return null;
+        return convertView;
     }
 
     public final class ViewHolder {

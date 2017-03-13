@@ -30,7 +30,7 @@ public class TemHumAdapter extends BaseAdapter {
     public TemHumAdapter(Context context, List<TemHumBean.DataBean> data) {
         this.context = context;
         this.data = data;
-        this.layoutInflater = layoutInflater.from(context);
+        this.layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class TemHumAdapter extends BaseAdapter {
             mHolder.humidity.setText("***");
         }
 
-        return null;
+        return convertView;
     }
 
     public final class ViewHolder {

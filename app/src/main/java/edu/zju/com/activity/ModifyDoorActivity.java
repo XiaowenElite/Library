@@ -85,6 +85,8 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
                 modifyDoor();
                 break;
             case R.id.door_cancle:
+                UserUtils.setCurrentPage("0");
+
                 finish();
                 break;
             case R.id.mf_doorBack:

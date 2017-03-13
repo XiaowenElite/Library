@@ -50,8 +50,6 @@ public class LigthFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.light, null);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-
         listView = (ListView) view.findViewById(R.id.listlight);
         init();
         return view;

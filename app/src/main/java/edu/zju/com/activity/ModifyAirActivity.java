@@ -32,16 +32,21 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
     private String name;
     private String addr;
     private String route;
+    private String paddr;
+    private String proute;
 
     private TextView mf_name;
     private TextView mf_addr;
     private TextView mf_route;
+    private TextView mf_poweraddr;
+    private TextView mf_powerline;
 
 
     private String airname;
     private String airaddr;
     private String airroute;
-
+    private String poweraddr;
+    private String powerline;
 
     private LinearLayout back;
     private Button modify;
@@ -56,6 +61,8 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
         name = getIntent().getStringExtra("name");
         addr = getIntent().getStringExtra("phy_addr_did");
         route = getIntent().getStringExtra("route");
+        paddr = getIntent().getStringExtra("pow_addr_did");
+        proute = getIntent().getStringExtra("pow_route");
 
         init();
     }
@@ -64,6 +71,8 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
         mf_name = (TextView) findViewById(R.id.mf_airName);
         mf_addr = (TextView) findViewById(R.id.mf_airPhyAddr);
         mf_route = (TextView) findViewById(R.id.mf_airLine);
+        mf_poweraddr = (TextView) findViewById(R.id.mf_poweraddr);
+        mf_powerline = (TextView) findViewById(R.id.mf_powerline);
 
         back = (LinearLayout) findViewById(R.id.mf_AirBack);
         modify = (Button)findViewById(R.id.air_modify);
@@ -73,6 +82,8 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
         mf_name.setText(name);
         mf_addr.setText(addr);
         mf_route.setText(route);
+        mf_powerline.setText(proute);
+        mf_poweraddr.setText(paddr);
 
         back.setOnClickListener(this);
         modify.setOnClickListener(this);
@@ -87,6 +98,7 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
                 modifyDoor();
                 break;
             case R.id.air_cancle:
+                UserUtils.setCurrentPage("2");
                 finish();
                 break;
             case R.id.mf_AirBack:
@@ -99,6 +111,8 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
         airname = mf_name.getText().toString().trim();
         airaddr = mf_addr.getText().toString().trim();
         airroute = mf_route.getText().toString().trim();
+        powerline = mf_powerline.getText().toString().trim();
+        poweraddr = mf_poweraddr.getText().toString().trim();
 
         if (airname.equals("") || airaddr.equals("") || airroute.equals("")) {
             Toast.makeText(ModifyAirActivity.this, "请填写全部信息", Toast.LENGTH_SHORT).show();
@@ -112,6 +126,11 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
             params.put("name_edit", airname);
             params.put("phy_addr_did_edit", airaddr);
             params.put("route_edit", airroute);
+            params.put("pow_addr_did",paddr);
+            params.put("pow_addr_did_edit",poweraddr);
+            params.put("pow_route",proute);
+            params.put("pow_route_edit",proute);
+
             String JsonString = JsonUtil.toJson(params);
 
             OkGo.post(HttpContant.getUnencryptionPath() + "airEdit")//

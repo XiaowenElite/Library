@@ -114,7 +114,6 @@ public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         mSwipeLayout.setRefreshing(false);
-                        Toast.makeText(context, "门同步成功", Toast.LENGTH_SHORT).show();
                         if (!isRefresh) {
                             LoadingProgress.getInstance().dismiss();
                         }

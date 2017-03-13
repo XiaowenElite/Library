@@ -25,6 +25,7 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
     private ViewPager myViewPager;
     private Button btntemp;
     private Button btnlight;
+    private LinearLayout btnadd;
     private LinearLayout back;
 
     TextPaint tp;
@@ -87,17 +88,17 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
         btntemp = (Button)findViewById(R.id.btn_temhumidity);
         btnlight = (Button)findViewById(R.id.btn_lightSence);
         back = (LinearLayout)findViewById(R.id.btn_Back);
-
+        btnadd = (LinearLayout)findViewById(R.id.btn_addsense);
         btntemp.setOnClickListener(this);
         btnlight.setOnClickListener(this);
         back.setOnClickListener(this);
+        btnadd.setOnClickListener(this);
         TemHumidityFragment temHumidityFragment = new TemHumidityFragment(this);
         LightSenceFragment lightSenceFragment = new LightSenceFragment(this);
 
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(temHumidityFragment);
         fragmentList.add(lightSenceFragment);
-
 
         lbFragmentAdapter = new LbFragmentAdapter(getSupportFragmentManager(),fragmentList);
         myViewPager.setAdapter(lbFragmentAdapter);
@@ -119,7 +120,7 @@ public class EnviormentActivity extends FragmentActivity implements View.OnClick
                 break;
             case R.id.btn_Back:
                 finish();
-            case R.id.btn_adddevice:
+            case R.id.btn_addsense:
                 //判断当前在那个页面
                 switch (index) {
                     case 0:

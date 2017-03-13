@@ -86,6 +86,7 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
                 modifyLight();
                 break;
             case R.id.light_cancle:
+                UserUtils.setCurrentPage("1");
                 finish();
                 break;
             case R.id.mf_lightBack:
