@@ -1,5 +1,8 @@
 package edu.zju.com.entity;
 
+import java.util.Map;
+import java.util.StringTokenizer;
+
 /**
  * Created by lixiaowen on 16/12/15.
  */
@@ -10,6 +13,17 @@ public class ResultEntity {
     private String phy_addr_did;
     private String route;
     private String result;
+
+    public Map<String, String> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, String> data) {
+        this.data = data;
+    }
+
+    private Map<String,String> data;
+
 
     public String getAction() {
         return action;

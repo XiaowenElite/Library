@@ -79,7 +79,14 @@ public class AirFragment extends Fragment implements SwipeRefreshLayout.OnRefres
 
     @Override
     public void onResume() {
+        Log.i("xiaowen","onresume---air)");
+
         super.onResume();
+
+        if (UserUtils.getisRefreshAir().equals("true")){
+            getAirs(false);
+            UserUtils.setisRefreshAir("false");
+        }
 
     }
 
@@ -104,6 +111,9 @@ public class AirFragment extends Fragment implements SwipeRefreshLayout.OnRefres
 
         params.put("username", UserUtils.getUsername());
         params.put("type", "air");
+
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
 
         String JsonString = JsonUtil.toJson(params);
 

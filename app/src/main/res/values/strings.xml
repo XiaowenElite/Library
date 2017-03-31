@@ -2,19 +2,19 @@
     <string name="app_name">LibraryController</string>
     <string name="about">
 智能24小时开放的无人值守图书馆</string>
-     <string name="about1">
+    <string name="about1">
 1. 可以无人值守式24小时对外开放</string>
-     <string name="about2">
+    <string name="about2">
 
 2. 多重设施确保人员安全和书籍安全</string>
-     <string name="about3">
+    <string name="about3">
 
 3. 推荐使用自动移动门方式进行人员进出控制</string>
-     <string name="about4">
+    <string name="about4">
 4. 智能灯光控制，感知外部光强、人体改变等环境改变</string>
-     <string name="about5">
+    <string name="about5">
 5. 智能温湿度调节控制</string>
-     <string name="banquan">
+    <string name="banquan">
 版权：钧飞智能科技有限公司</string>
     <string name="title_activity_camera_state">CameraStateActivity</string>
 </resources>

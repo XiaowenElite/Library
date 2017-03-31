@@ -1,15 +1,15 @@
-package edu.zju.com.Fragment;
+package edu.zju.com.activity;
 
-
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.zju.com.adapter.DoorAdpter;
+import edu.zju.com.adapter.RoomAdapter;
 import edu.zju.com.entity.DataBean;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
@@ -30,92 +31,72 @@ import edu.zju.com.utils.UserUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
-/**
- * Created by lixiaowen on 16/12/13.
- */
+import static com.lzy.okgo.utils.OkLogger.tag;
 
-public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class LibrarySumActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener,View.OnClickListener {
 
     private ListView listView = null;
+    private List<Map<String, String>> dataInfoList;//获取JSon数组相关
+
+    private SwipeRefreshLayout mSwipeLayout;
+
+    private LinearLayout btnBack;
+    private LinearLayout btnAdd;
+
     private String number;//记录从服务器读取的设备数量,字符串
     private int count;//设备数量
-    private List<Map<String, String>> dataInfoList;//获取JSon数组相关
-    private SwipeRefreshLayout mSwipeLayout;
-    private View view;
-    private Context context;
-
-
-    public DoorFragment(){
-
-    }
-
-    public DoorFragment(Context context) {
-        this.context = context;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.door, null);
-        listView = (ListView) view.findViewById(R.id.list);
-        init();
-        return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_library_sum);
+
+        init();
+
+
+        DisplayMetrics dm =getResources().getDisplayMetrics();
+        int w_screen = dm.widthPixels;
+        int h_screen = dm.heightPixels;
+        Log.i("xiaowen", "屏幕尺寸2：宽度 = " + w_screen + "高度 = " + h_screen + "密度 = " + dm.densityDpi);
+
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        Log.i("xiaowen","onresume---door)");
+    protected void onResume() {
         super.onResume();
-        if (UserUtils.getisRefreshDoor().equals("true")){
-            getdoors(false);
-            UserUtils.setisRefreshDoor("false");
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            getdoors(false);
-        } else {
-            OkGo.getInstance().cancelTag(this);
-        }
+        getrooms(false);
     }
 
     public void init() {
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        listView = (ListView) findViewById(R.id.list);
+
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.activity_library_sum);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
                 android.R.color.holo_orange_light);
         mSwipeLayout.setDistanceToTriggerSync(200);// 设置手指在屏幕下拉多少距离会触发下拉刷新
         mSwipeLayout.setSize(SwipeRefreshLayout.LARGE); // 设置圆圈的大小
+
+
+        btnBack = (LinearLayout) this.findViewById(R.id.btn_BackLibrary);
+        btnAdd = (LinearLayout) this.findViewById(R.id.btn_addlibrary);
+
+        btnAdd.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
     }
 
-    public void getdoors(final Boolean isRefresh) {
-
+    public void getrooms(final Boolean isRefresh) {
 
         if (!isRefresh) {
-            LoadingProgress.getInstance(context).show();
+            LoadingProgress.getInstance(this).show();
         }
         HashMap<String, String> params = new HashMap<String, String>();
 
         params.put("username", UserUtils.getUsername());
-        params.put("type", "door");
-        String libid = UserUtils.getLibraryid();
-        params.put("library_id",libid);
 
         String JsonString = JsonUtil.toJson(params);
 
-        OkGo.post(HttpContant.getUnencryptionPath() + "synchrodoor")//
+        OkGo.post(HttpContant.getUnencryptionPath() + "synchrolibrary")//
                 .tag(this)//
                 .upJson(JsonString)//
                 .execute(new StringCallback() {
@@ -132,8 +113,8 @@ public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         if (count != 0) {
                             DataBean dataBean = JsonUtil.fromJson(s, DataBean.class);//拿到Json字符串S,用Gson直接解析成对象
                             dataInfoList = dataBean.getData();
-                            listView.setAdapter(new DoorAdpter(getActivity(), dataInfoList));
-}
+                            listView.setAdapter(new RoomAdapter(LibrarySumActivity.this, dataInfoList));
+                        }
                     }
 
                     @Override
@@ -146,7 +127,7 @@ public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         if (!isRefresh) {
                             LoadingProgress.getInstance().dismiss();
                         }
-                        Toast.makeText(context, "门同步失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LibrarySumActivity.this, "房间同步失败", Toast.LENGTH_SHORT).show();
                         mSwipeLayout.setRefreshing(false);
                         OkGo.getInstance().cancelTag(this);
                     }
@@ -156,7 +137,19 @@ public class DoorFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        getdoors(true);
+        getrooms(true);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_BackLibrary:
+                finish();
+                break;
+            case R.id.btn_addlibrary:
+                Intent intent = new Intent(LibrarySumActivity.this, AddRoomActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import edu.zju.com.entity.ResultEntity;
@@ -34,7 +36,10 @@ public class AirControl extends Activity implements View.OnClickListener {
     private TextView tvTem;
     private TextView tvMode;
     private TextView tvWinddir;
+    private TextView tvwindspeed;
+    private TextView tvshesih;
     private ImageView imgWindSpeed;
+
 
     private String username;
     private String name;
@@ -42,6 +47,7 @@ public class AirControl extends Activity implements View.OnClickListener {
     private String route;
     private String cmd;
 
+    private String power = "close";
 
     private Button btnKaiguan;
 
@@ -68,6 +74,13 @@ public class AirControl extends Activity implements View.OnClickListener {
     String action = "tempadd";
 
     int temprature = 0;
+    private Button btnFensu;
+    private Button btnFengxiang;
+    private Button btnMoshi;
+    private Button btnUp;
+    private Button btnDown;
+
+    private Button btnPower;
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -82,14 +95,17 @@ public class AirControl extends Activity implements View.OnClickListener {
         tvMode = (TextView) findViewById(R.id.tv_mode);
         tvWinddir = (TextView) findViewById(R.id.tv_winddir);
         imgWindSpeed = (ImageView) findViewById(R.id.im_fengsu);
+        tvwindspeed = (TextView) findViewById(R.id.tv_windspeed);
+        tvshesih = (TextView) findViewById(R.id.sheshidu);
 
         LinearLayout btnBack = (LinearLayout) findViewById(R.id.back);
-        Button btnFensu = (Button) findViewById(R.id.fengsu);
-        Button btnFengxiang = (Button) findViewById(R.id.fengxiang);
+        btnFensu = (Button) findViewById(R.id.fengsu);
+        btnFengxiang = (Button) findViewById(R.id.fengxiang);
         btnKaiguan = (Button) findViewById(R.id.airswitch);
-        Button btnMoshi = (Button) findViewById(R.id.moshi);
-        Button btnUp = (Button) findViewById(R.id.tempUp);
-        Button btnDown = (Button) findViewById(R.id.temdown);
+        btnMoshi = (Button) findViewById(R.id.moshi);
+        btnUp = (Button) findViewById(R.id.tempUp);
+        btnDown = (Button) findViewById(R.id.temdown);
+        btnPower = (Button) findViewById(R.id.air_power);
         btnFensu.setOnClickListener(this);
         btnFengxiang.setOnClickListener(this);
         btnBack.setOnClickListener(this);
@@ -97,6 +113,8 @@ public class AirControl extends Activity implements View.OnClickListener {
         btnDown.setOnClickListener(this);
         btnKaiguan.setOnClickListener(this);
         btnMoshi.setOnClickListener(this);
+        btnPower.setOnClickListener(this);
+
     }
 
 
@@ -107,18 +125,54 @@ public class AirControl extends Activity implements View.OnClickListener {
         name = UserUtils.getAirname();
         phy_addr_did = UserUtils.getAiraddr();
         route = UserUtils.getAirroute();
+        //cmd 是遥控器开发 power是空调开关--相当于电源
         cmd = UserUtils.getAircmd();
         if (cmd.equals("open")) {
             btnKaiguan.setBackgroundResource(R.drawable.kaiguan_icon_press);
         } else {
             btnKaiguan.setBackgroundResource(R.drawable.kaiguan_icon_unpress);
         }
+
+        syspower(name, phy_addr_did, route);
     }
+
+    public void setVisibleAndEnable(boolean isAble) {
+        if (!isAble) {
+ /*           btnKaiguan.setEnabled(false);
+            btnDown.setEnabled(false);
+            btnFengxiang.setEnabled(false);
+            btnFensu.setEnabled(false);
+            btnMoshi.setEnabled(false);
+            btnUp.setEnabled(false);*/
+
+            tvTem.setVisibility(View.INVISIBLE);
+            tvMode.setVisibility(View.INVISIBLE);
+            tvWinddir.setVisibility(View.INVISIBLE);
+            imgWindSpeed.setVisibility(View.INVISIBLE);
+            tvwindspeed.setVisibility(View.INVISIBLE);
+            tvshesih.setVisibility(View.INVISIBLE);
+        } else {
+     /*       btnKaiguan.setEnabled(true);
+            btnDown.setEnabled(true);
+            btnFengxiang.setEnabled(true);
+            btnFensu.setEnabled(true);
+            btnMoshi.setEnabled(true);
+            btnUp.setEnabled(true);*/
+
+            tvTem.setVisibility(View.VISIBLE);
+            tvMode.setVisibility(View.VISIBLE);
+            tvWinddir.setVisibility(View.VISIBLE);
+            imgWindSpeed.setVisibility(View.VISIBLE);
+            tvwindspeed.setVisibility(View.VISIBLE);
+            tvshesih.setVisibility(View.VISIBLE);
+        }
+
+    }
+
 
     private void changeAirParam(String username, String action, String name, String addr, String route, String windspeed, String winddir, String mode, String temp) {
         HashMap<String, String> params = new HashMap<String, String>();
 
-        params.put("username", username);
         params.put("action", action);
         params.put("name", name);
         params.put("phy_addr_did", addr);
@@ -127,6 +181,8 @@ public class AirControl extends Activity implements View.OnClickListener {
         params.put("winddir", winddir);
         params.put("temp", temp);
         params.put("mode", mode);
+        params.put("library_id", UserUtils.getLibraryid());
+
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "airControl")//
@@ -139,10 +195,12 @@ public class AirControl extends Activity implements View.OnClickListener {
                         ResultEntity resultEntity = JsonUtil.fromJson(s, ResultEntity.class);
                         String result = resultEntity.getResult();
                         if (result.equals("success")) {
-                            Log.i("lbk", "空调操作成功");
+                            Log.i("lbk", "空调电源打开状态");
+
                         } else {
-                            Toast.makeText(edu.zju.com.activity.AirControl.this, "空调操作失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(edu.zju.com.activity.AirControl.this, result, Toast.LENGTH_SHORT).show();
                         }
+
 
                     }
 
@@ -163,7 +221,6 @@ public class AirControl extends Activity implements View.OnClickListener {
     private void changeAirTemp(String username, String action, String name, String addr, String route, String windspeed, String winddir, String mode, final String temp) {
         HashMap<String, String> params = new HashMap<String, String>();
 
-        params.put("username", username);
         params.put("action", action);
         params.put("name", name);
         params.put("phy_addr_did", addr);
@@ -172,6 +229,8 @@ public class AirControl extends Activity implements View.OnClickListener {
         params.put("winddir", winddir);
         params.put("temp", temp);
         params.put("mode", mode);
+        params.put("library_id", UserUtils.getLibraryid());
+
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "airControl")//
@@ -215,6 +274,7 @@ public class AirControl extends Activity implements View.OnClickListener {
         params.put("phy_addr_did", addr);
         params.put("route", route);
         params.put("cmd", cmd);
+        params.put("library_id", UserUtils.getLibraryid());
 
         String JsonString = JsonUtil.toJson(params);
         OkGo.post(HttpContant.getUnencryptionPath() + "airControl")//
@@ -258,92 +318,259 @@ public class AirControl extends Activity implements View.OnClickListener {
 
         temprature = Integer.parseInt(tvTem.getText().toString().trim());
 
+        int index = 0;
+
         switch (view.getId()) {
             case R.id.back:
                 UserUtils.setCurrentPage("2");
                 finish();
                 break;
             case R.id.tempUp:
-                if (temprature < 32) {
-                    temprature = temprature + 1;
-                    temp = temprature + "";
-                    changeAirTemp(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                if (power.equals("open")) {
+                    if (temprature < 32) {
+                        temprature = temprature + 1;
+                        temp = temprature + "";
+                        changeAirTemp(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                    } else {
+                        Toast.makeText(edu.zju.com.activity.AirControl.this, "已经是最高温度", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(edu.zju.com.activity.AirControl.this, "已经是最高温度", Toast.LENGTH_SHORT).show();
+                    showDialog();
                 }
                 break;
 
             case R.id.airswitch:
-                if (cmd.equals("open")) {
-                    btnKaiguan.setBackgroundResource(R.drawable.kaiguan_icon_unpress);
-                    cmd = "close";
+                if (power.equals("open")) {
+                    if (cmd.equals("open")) {
+                        btnKaiguan.setBackgroundResource(R.drawable.kaiguan_icon_unpress);
+                        setVisibleAndEnable(false);
+                        cmd = "close";
+                    } else {
+                        btnKaiguan.setBackgroundResource(R.drawable.kaiguan_icon_press);
+                        setVisibleAndEnable(true);
+                        cmd = "open";
+                    }
+                    changeAirCmd(username, name, phy_addr_did, route, cmd);
                 } else {
-                    btnKaiguan.setBackgroundResource(R.drawable.kaiguan_icon_press);
-                    cmd = "open";
+                    showDialog();
                 }
-                changeAirCmd(username, name, phy_addr_did, route, cmd);
                 break;
             case R.id.moshi:
-                countmod++;
-                int index = countmod % (airmodes.length);
-                switch (index) {
-                    case 1:
-                        tvMode.setBackgroundResource(R.drawable.zhire);
-                        mode = airmodesTo[0];
-                        break;
-                    case 0:
-                        tvMode.setBackgroundResource(R.drawable.xuehua);
-                        mode = airmodesTo[1];
-                        break;
+                if (power.equals("open")) {
+                    countmod++;
+                    index = countmod % (airmodes.length);
+                    switch (index) {
+                        case 1:
+                            tvMode.setBackgroundResource(R.drawable.zhire);
+                            mode = airmodesTo[0];
+                            break;
+                        case 0:
+                            tvMode.setBackgroundResource(R.drawable.xuehua);
+                            mode = airmodesTo[1];
+                            break;
+                    }
+                    changeAirParam(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                }else {
+                    showDialog();
                 }
-                changeAirParam(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
                 break;
 
             case R.id.temdown:
-                if (temprature > 18) {
-                    temprature = temprature - 1;
-                    temp = temprature + "";
-                    changeAirTemp(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
-                } else {
-                    Toast.makeText(edu.zju.com.activity.AirControl.this, "已经是最低温度", Toast.LENGTH_SHORT).show();
+                if (power.equals("open")) {
+                    if (temprature > 18) {
+                        temprature = temprature - 1;
+                        temp = temprature + "";
+                        changeAirTemp(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                    } else {
+                        Toast.makeText(edu.zju.com.activity.AirControl.this, "已经是最低温度", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    showDialog();
                 }
                 break;
 
             case R.id.fengsu:
-                countspeed++;
-                index = countspeed % windspeeds.length;
-                switch (index) {
-                    case 0:
-                        imgWindSpeed.setBackgroundResource(R.drawable.fengsu1ji);
-                        windSpeed = windspeedsTo[0];
-                        break;
-                    case 1:
-                        imgWindSpeed.setBackgroundResource(R.drawable.fengsu2ji);
-                        windSpeed = windspeedsTo[1];
-                        break;
+                if (power.equals("open")) {
+                    countspeed++;
+                    index = countspeed % windspeeds.length;
+                    switch (index) {
+                        case 0:
+                            imgWindSpeed.setBackgroundResource(R.drawable.fengsu1ji);
+                            windSpeed = windspeedsTo[0];
+                            break;
+                        case 1:
+                            imgWindSpeed.setBackgroundResource(R.drawable.fengsu2ji);
+                            windSpeed = windspeedsTo[1];
+                            break;
+                    }
+                    changeAirParam(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                }else {
+                    showDialog();
                 }
-                changeAirParam(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
                 break;
             case R.id.fengxiang:
-                countdir++;
-                String winStr = "";
-                index = countdir % winddirs.length;
-                switch (index) {
-                    case 0:
-                        winStr = winddirs[0];
-                        winddir = winddirsTo[0];
-                        break;
-                    case 1:
-                        winStr = winddirs[1];
-                        winddir = winddirsTo[1];
-                        break;
+                if (power.equals("open")) {
+                    countdir++;
+                    String winStr = "";
+                    index = countdir % winddirs.length;
+                    switch (index) {
+                        case 0:
+                            winStr = winddirs[0];
+                            winddir = winddirsTo[0];
+                            break;
+                        case 1:
+                            winStr = winddirs[1];
+                            winddir = winddirsTo[1];
+                            break;
+                    }
+                    tvWinddir.setText(winStr);
+                    changeAirParam(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                }else {
+                    showDialog();
                 }
-                tvWinddir.setText(winStr);
-                changeAirParam(username, action, name, phy_addr_did, route, windSpeed, winddir, mode, temp);
+                break;
+            case R.id.air_power:
+                if (power.equals("close")) {
+                    //打开电源开关
+                    new SweetAlertDialog(AirControl.this)
+                            .setTitleText("确定打开电源开关？")
+                            .setCancelText("取消")
+                            .setConfirmText("确定")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    power = "open";
+                                    setVisibleAndEnable(true);
+                                    sweetAlertDialog.cancel();
+                                    changePowerState(name, phy_addr_did, route, power);
+                                }
+                            })
+                            .show();
+
+                } else {
+                    new SweetAlertDialog(AirControl.this)
+                            .setTitleText("确定关闭电源开关？")
+                            .setCancelText("取消")
+                            .setConfirmText("确定")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    power = "close";
+                                    setVisibleAndEnable(false);
+                                    sweetAlertDialog.cancel();
+                                    changePowerState(name, phy_addr_did, route, power);
+                                }
+                            })
+                            .show();
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    private void showDialog() {
+        new SweetAlertDialog(AirControl.this)
+                .setTitleText("请先打开电源开关")
+                .setConfirmText("确定")
+                .show();
+    }
+
+    private void syspower(String airname, String addr, String route) {
+        final HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", UserUtils.getUsername());
+        params.put("name", airname);
+        params.put("phy_addr_did", addr);
+        params.put("route", route);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id", libid);
+        params.put("type", "air");
+
+
+        String JsonString = JsonUtil.toJson(params);
+        OkGo.post(HttpContant.getUnencryptionPath() + "synchroairpower")//
+                .tag(this)//
+                .upJson(JsonString)//
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                        ResultEntity resultEntity = JsonUtil.fromJson(s, ResultEntity.class);
+                        String result = resultEntity.getResult();
+
+                        if (result.equals("success")) {
+
+                            Map<String, String> data = resultEntity.getData();
+                            power = data.get("power");
+                            if (power.equals("close")) {
+                                Log.i("lbk", "空调电源关闭状态");
+                                setVisibleAndEnable(false);
+                                //文本框不显示 按钮不可点
+                            } else {
+                                Log.i("lbk", "空调电源打开状态");
+                                setVisibleAndEnable(true);
+                            }
+                        } else {
+                            Toast.makeText(AirControl.this, "应急电源操作失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
+                        //这里回调上传进度(该回调在主线程,可以直接更新ui)
+                        Log.i("test", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        Log.i("xiaowen", "error");
+                        Toast.makeText(AirControl.this, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void changePowerState(final String airname, final String addr,
+                                  final String route, final String airpower) {
+        final HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("username", UserUtils.getUsername());
+        params.put("name", airname);
+        params.put("phy_addr_did", addr);
+        params.put("route", route);
+        params.put("power", airpower);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id", libid);
+
+        String JsonString = JsonUtil.toJson(params);
+        OkGo.post(HttpContant.getUnencryptionPath() + "airControl")//
+                .tag(this)//
+                .upJson(JsonString)//
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                        ResultEntity resultEntity = JsonUtil.fromJson(s, ResultEntity.class);
+                        String result = resultEntity.getResult();
+
+                        if (result.equals("success")) {
+                            Log.i("lbk", "空调电源操作成功");
+                        } else {
+                            Toast.makeText(AirControl.this, "应急电源操作失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
+                        //这里回调上传进度(该回调在主线程,可以直接更新ui)
+                        Log.i("test", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        Log.i("xiaowen", "error");
+                        Toast.makeText(AirControl.this, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     @Override
@@ -353,5 +580,6 @@ public class AirControl extends Activity implements View.OnClickListener {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 }

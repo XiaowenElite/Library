@@ -163,7 +163,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         Map data = JsonUtil.fromJson(s, Map.class);
                         //get方法直接获取key对应的value
                         String result = (String) data.get("result");
-                        Log.i("lbk", "result=" + data.get("result"));
                         if ("success".equals(result)) {
                             UserUtils.setUsername(params1);
                             UserUtils.setPassword(params2);

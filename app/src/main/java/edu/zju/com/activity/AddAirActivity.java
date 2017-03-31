@@ -110,6 +110,8 @@ public class AddAirActivity extends Activity implements OnClickListener {
         params.put("route", params5);
         params.put("pow_addr_did",powerAddr);
         params.put("pow_route",powerLine);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
         String JsonString = JsonUtil.toJson(params);
 //okgo每次使用注意在全局文件中初始化
         OkGo.post(HttpContant.getUnencryptionPath() + "airAdd")//
@@ -131,6 +133,8 @@ public class AddAirActivity extends Activity implements OnClickListener {
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            UserUtils.setisRefreshAir("true");
+
                                             finish();
                                         }
                                     })

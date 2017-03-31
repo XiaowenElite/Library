@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,17 @@ public class LightSenceFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     @Override
+    public void onResume() {
+        Log.i("xiaowen","onresume---lightsense)");
+
+        super.onResume();
+        if (UserUtils.getisRefreshls().equals("true")){
+            getlightSense(false);
+            UserUtils.setisRefreshls("false");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.lightsense, null);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_lightSense);
@@ -83,6 +95,8 @@ public class LightSenceFragment extends Fragment implements SwipeRefreshLayout.O
         params.put("username", UserUtils.getUsername());
         params.put("type", "lightsense");
 
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "synchrolightsense")

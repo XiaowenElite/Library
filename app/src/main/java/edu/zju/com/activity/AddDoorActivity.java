@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import edu.zju.com.Fragment.DoorFragment;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
 import edu.zju.com.utils.JsonUtil;
@@ -36,6 +37,8 @@ public class AddDoorActivity extends Activity implements OnClickListener{
 	private Button unsave;
 	private  String username;//登录用户名
 
+	HashMap aa = new HashMap();
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,9 @@ public class AddDoorActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.adddoor);
 		username = UserUtils.getUsername();
+		HashMap<String,String> sd= new HashMap<>();
+		sd.put("","");
+
 		init();
 	}
 	private void init(){
@@ -91,6 +97,8 @@ public class AddDoorActivity extends Activity implements OnClickListener{
 		params.put("name", params3);
 		params.put("phy_addr_did", params4);
 		params.put("route",params5);
+		String libid = UserUtils.getLibraryid();
+		params.put("library_id",libid);
 		String  JsonString = JsonUtil.toJson(params);
 		OkGo.post(HttpContant.getUnencryptionPath()+"doorAdd")//
 				.tag(this)//
@@ -113,6 +121,7 @@ public class AddDoorActivity extends Activity implements OnClickListener{
 									.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 										@Override
 										public void onClick(SweetAlertDialog sweetAlertDialog) {
+											UserUtils.setisRefreshDoor("true");
 											finish();
 										}
 									})

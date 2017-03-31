@@ -86,12 +86,14 @@ public class AddLightActivity extends Activity implements OnClickListener {
 
     private void addLight(String params1, String params2, String params3, String params4, String params5) {
         HashMap<String, String> params = new HashMap<String, String>();
-
         params.put("username", params1);
         params.put("type", params2);
         params.put("name", params3);
         params.put("phy_addr_did", params4);
         params.put("route", params5);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
+
         String JsonString = JsonUtil.toJson(params);
 //okgo每次使用注意在全局文件中初始化
         OkGo.post(HttpContant.getUnencryptionPath() + "lightAdd")//
@@ -116,6 +118,7 @@ public class AddLightActivity extends Activity implements OnClickListener {
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            UserUtils.setisRefreshLight("true");
                                             finish();
                                         }
                                     })

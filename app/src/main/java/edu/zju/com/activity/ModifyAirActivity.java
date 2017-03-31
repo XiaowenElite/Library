@@ -130,6 +130,7 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
             params.put("pow_addr_did_edit",poweraddr);
             params.put("pow_route",proute);
             params.put("pow_route_edit",proute);
+            params.put("library_id",UserUtils.getLibraryid());
 
             String JsonString = JsonUtil.toJson(params);
 
@@ -152,11 +153,13 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                UserUtils.setisRefreshAir("true");
                                                 finish();
                                             }
                                         })
                                         .show();
                             } else {
+                                UserUtils.setCurrentPage("2");
                                 Toast.makeText(ModifyAirActivity.this,result.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -174,4 +177,5 @@ public class ModifyAirActivity extends Activity implements View.OnClickListener 
                     });
         }
     }
+
 }

@@ -27,7 +27,7 @@ import okhttp3.Response;
  * Created by lixiaowen on 16/12/28.
  */
 
-public class ModifyDoorActivity extends Activity implements View.OnClickListener {
+public class ModifyLightSenseActivity extends Activity implements View.OnClickListener {
 
     private String name;
     private String addr;
@@ -38,9 +38,9 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
     private TextView mf_route;
 
 
-    private String doorname;
-    private String dooraddr;
-    private String doorroute;
+    private String lightname;
+    private String lightaddr;
+    private String lightroute;
 
     private LinearLayout back;
     private Button modify;
@@ -50,7 +50,7 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.modifydoor);
+        setContentView(R.layout.modifylightsense);
 
         name = getIntent().getStringExtra("name");
         addr = getIntent().getStringExtra("phy_addr_did");
@@ -60,13 +60,13 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
     }
 
     private void init() {
-        mf_name = (TextView) findViewById(R.id.mf_doorName);
-        mf_addr = (TextView) findViewById(R.id.mf_doorPhyAddr);
-        mf_route = (TextView) findViewById(R.id.mf_doorLine);
-        back = (LinearLayout) findViewById(R.id.mf_doorBack);
-        modify = (Button) findViewById(R.id.door_modify);
-        cancle = (Button) findViewById(R.id.door_cancle);
+        mf_name = (TextView) findViewById(R.id.mf_lightsenseName);
+        mf_addr = (TextView) findViewById(R.id.mf_lightsensePhyAddr);
+        mf_route = (TextView) findViewById(R.id.mf_lightsenseLine);
 
+        back = (LinearLayout)findViewById(R.id.mf_lightsenseBack);
+        modify = (Button)findViewById(R.id.lightsense_modify);
+        cancle = (Button)findViewById(R.id.lightsense_cancle);
 
         mf_name.setText(name);
         mf_addr.setText(addr);
@@ -75,50 +75,48 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
         back.setOnClickListener(this);
         modify.setOnClickListener(this);
         cancle.setOnClickListener(this);
+
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.door_modify:
-                modifyDoor();
+            case R.id.lightsense_modify:
+                modifyLightSense();
                 break;
-            case R.id.door_cancle:
-                UserUtils.setCurrentPage("0");
-
+            case R.id.lightsense_cancle:
+                UserUtils.setCurrentPage("5");
                 finish();
                 break;
-            case R.id.mf_doorBack:
+            case R.id.mf_lightsenseBack:
                 finish();
                 break;
-
         }
     }
 
-    public void modifyDoor() {
-        doorname = mf_name.getText().toString().trim();
-        dooraddr = mf_addr.getText().toString().trim();
-        doorroute = mf_route.getText().toString().trim();
+    public void modifyLightSense() {
+        lightname = mf_name.getText().toString().trim();
+        lightaddr = mf_addr.getText().toString().trim();
+        lightroute= mf_route.getText().toString().trim();
 
-        if (doorname.equals("") || dooraddr.equals("") || doorroute.equals("")) {
-            Toast.makeText(ModifyDoorActivity.this, "请填写全部信息", Toast.LENGTH_SHORT).show();
+        if (lightname.equals("") || lightaddr.equals("") || lightroute.equals("")) {
+            Toast.makeText(ModifyLightSenseActivity.this, "请填写全部信息", Toast.LENGTH_SHORT).show();
         } else {
             final HashMap<String, String> params = new HashMap<String, String>();
             params.put("username", UserUtils.getUsername());
             params.put("name", name);
             params.put("phy_addr_did", addr);
             params.put("route", route);
-            params.put("action", "door");
-            params.put("name_edit", doorname);
-            params.put("phy_addr_did_edit", dooraddr);
-            params.put("route_edit", doorroute);
+            params.put("action", "lightsense");
+            params.put("name_edit", lightname);
+            params.put("phy_addr_did_edit", lightaddr);
+            params.put("route_edit", lightroute);
             params.put("library_id",UserUtils.getLibraryid());
-
 
             String JsonString = JsonUtil.toJson(params);
 
-            OkGo.post(HttpContant.getUnencryptionPath() + "doorEdit")//
+            OkGo.post(HttpContant.getUnencryptionPath() + "lightsenseEdit")//
                     .tag(this)//
                     .upJson(JsonString)//
                     .execute(new StringCallback() {
@@ -129,22 +127,22 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
                             String result = resultEntity.get("result");
 
                             if (result.equals("success")) {
-                                UserUtils.setCurrentPage("0");
+                                UserUtils.setCurrentPage("5");
 
-                                new SweetAlertDialog(ModifyDoorActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                new SweetAlertDialog(ModifyLightSenseActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("Success")
-                                        .setContentText("您已经成功修改门")
+                                        .setContentText("您已经成功修改灯")
                                         .setConfirmText("确认")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                UserUtils.setisRefreshDoor("true");
+                                                UserUtils.setisRefreshls("true");
                                                 finish();
                                             }
                                         })
                                         .show();
                             } else {
-                                Toast.makeText(ModifyDoorActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ModifyLightSenseActivity.this,result.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 

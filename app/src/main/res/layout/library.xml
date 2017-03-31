@@ -35,12 +35,11 @@
     </RelativeLayout>
 
     <ScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:id="@+id/linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,11 +51,30 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <LinearLayout
                     android:id="@+id/btn_room"
                     android:layout_width="@dimen/x316"
                     android:layout_height="@dimen/y380"
-                    android:background="@drawable/fangjian_unpress" />
+                    android:orientation="vertical"
+                    android:background="@drawable/fangjian_unpress"
+                    android:gravity="center"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/fangjian"
+                         />
+                    <TextView
+                        android:id="@+id/tx_room"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="简 单"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
 
                 <Button
                     android:id="@+id/btn_scene"
@@ -89,11 +107,12 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="13dp"
                 android:layout_marginBottom="13dp"
+                android:layout_marginTop="13dp"
                 android:orientation="horizontal">
 
                 <Button

@@ -32,6 +32,7 @@ public class SignActivity extends Activity implements OnClickListener {
     private EditText etEmail;
     private EditText etTel;
     private EditText etGateWay;
+    private EditText etRoomName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,13 @@ public class SignActivity extends Activity implements OnClickListener {
         etEmail = (EditText) this.findViewById(R.id.sign_et_email);
         etTel = (EditText) this.findViewById(R.id.sign_et_tel);
         etGateWay = (EditText) this.findViewById(R.id.sign_et_gateway);
+        etRoomName = (EditText) this.findViewById(R.id.sign_et_roomname);
 
         btn_add.setOnClickListener(this);
         btnBack.setOnClickListener(this);
     }
 
-    private void signUser(final String username, String password, String email, String cellphone, String addr) {
+    private void signUser(final String username, String password, String email, String cellphone, String addr,String roomname) {
         final SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
                 .setTitleText("Loading");
         pDialog.show();
@@ -66,6 +68,7 @@ public class SignActivity extends Activity implements OnClickListener {
         params.put("email", email);
         params.put("cellphone", cellphone);
         params.put("phy_addr", addr);//会给固定物理地址00-01-6C-06-A6-29
+        params.put("palce",roomname);
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "sign")//
@@ -122,6 +125,7 @@ public class SignActivity extends Activity implements OnClickListener {
                 String email = etEmail.getText().toString();
                 String tel = etTel.getText().toString();
                 String gateway = etGateWay.getText().toString();
+                String roomname = etRoomName.getText().toString();
 
                 if (("".equals(name) && "".equals(pwd) && "".equals(email) && "".equals(tel) && "".equals(gateway))) {
                     Toast.makeText(getApplicationContext(), "请输入注册信息", Toast.LENGTH_SHORT).show();
@@ -140,9 +144,12 @@ public class SignActivity extends Activity implements OnClickListener {
                                 } else {
                                     if ("".equals((gateway))) {
                                         Toast.makeText(getApplicationContext(), "网关不能为空", Toast.LENGTH_SHORT).show();
-                                    } else {
+                                    } if("".equals(roomname)){
+                                        Toast.makeText(getApplicationContext(), "图书馆名称不能为空", Toast.LENGTH_SHORT).show();
 
-                                        signUser(name, pwd, email, tel, gateway);
+                                    }else {
+
+                                        signUser(name, pwd, email, tel, gateway,roomname);
                                     }
                                 }
 

@@ -10,9 +10,9 @@ public class HttpContant {
 
     private static final String HTTPS = "https://";
 
-
     private static final String SERVER_HOST = " ";
 
+    //private static String SERVER_ADDR = "60.12.220.16";
     private static String SERVER_ADDR = "60.12.220.16";
 
     //60.12.220.16
@@ -20,9 +20,9 @@ public class HttpContant {
 
     private static final String ENCRYPTION_PATH = "";
 
-    private static final String UNENCRYPTION_PATH = "/thinkphp/IOSAPI/index.php/Home/Index/";
+    private static final String UNENCRYPTION_PATH = "/smartlibrary/IOSAPI/index.php/Home/Index/";
 
-    private static String HTTP_PORT = "9999";
+    private static String HTTP_PORT = "9998";
 
     private static final String HTTPS_PORT = "443";
 

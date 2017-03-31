@@ -1,5 +1,6 @@
 package edu.zju.com.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import edu.zju.com.activity.ModifyDoorActivity;
-import edu.zju.com.activity.ModifyTempActivity;
-import edu.zju.com.entity.TemHumBean;
+import edu.zju.com.activity.ModifyLibrary;
+import edu.zju.com.activity.RoomNActivity;
 import edu.zju.com.librarycontroller.R;
 import edu.zju.com.utils.HttpContant;
 import edu.zju.com.utils.JsonUtil;
@@ -30,70 +31,95 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 /**
- * Created by lixiaowen on 16/12/28.
+ * Created by lixiaowen on 2017/3/13.
  */
 
-public class TemHumAdapter extends BaseAdapter {
-
-    private List<TemHumBean.DataBean> data;
+public class RoomAdapter extends BaseAdapter {
+    private List<Map<String, String>> data;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    private ViewHolder mHolder;
+    private RoomAdapter roomAdapter;
 
-    public TemHumAdapter(Context context, List<TemHumBean.DataBean> data) {
+    RoomAdapter.ViewHolder mHolder;
+
+    public RoomAdapter(Context context, List<Map<String, String>> data) {
         this.context = context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(context);
     }
 
+
+    public final class ViewHolder {
+        public TextView name;
+
+    }
+
+
     @Override
     public int getCount() {
         return data.size();
     }
+    /*
+    * 获得某一位置的数据
+    * */
 
     @Override
     public Object getItem(int position) {
         return data.get(position);
     }
+    /*
+    * 获得唯一标识
+    * */
 
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        mHolder = new ViewHolder();
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.temhumiditylist, null);
-            mHolder.name = (TextView) convertView.findViewById(R.id.tv_temname);
-            mHolder.tempture = (TextView) convertView.findViewById(R.id.tv_temp);
-            mHolder.humidity = (TextView) convertView.findViewById(R.id.tv_humidity);
+            //获得组件，实例化组件
+            convertView = layoutInflater.inflate(R.layout.list_roomlayout, null);
+            mHolder = new ViewHolder();
+            mHolder.name = (TextView) convertView.findViewById(R.id.tv_roomname);
             convertView.setTag(mHolder);
         } else {
-            mHolder = (ViewHolder) convertView.getTag();
+            mHolder = (RoomAdapter.ViewHolder) convertView.getTag();
         }
 
-        mHolder.name.setText(data.get(position).getName().toString());
 
-        String result = data.get(position).getResult().toString();
-        if (result.equals("success")) {
-            mHolder.tempture.setText(data.get(position).getTemp().toString());
-            mHolder.humidity.setText(data.get(position).getHum().toString());
-        } else {
-            mHolder.tempture.setText("***");
-            mHolder.humidity.setText("***");
-        }
+//        绑定数据
+        mHolder.name.setText(data.get(position).get("library"));
+        //门的状态
 
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+
+
+        mHolder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RoomNActivity.class);
+
+                UserUtils.setLibraryname(data.get(position).get("library"));
+                UserUtils.setLibraryid(data.get(position).get("id"));
+                context.startActivity(intent);
+            }
+        });
+
+        mHolder.name.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                Log.i("xiaowen", "长按时间");
+
                 final String[] listItems = {"修改", "删除"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                final String nameLocal = data.get(position).getName();
-                final String phy_addr_did = data.get(position).getPhy_addr_did();
-                final String route = data.get(position).getRoute();
+
+
+                final String username = UserUtils.getUsername();//从上页获取用户名
+                final String libraryname = data.get(position).get("library");
+                final String idstr = data.get(position).get("id");
 
                 builder.setItems(listItems, new DialogInterface.OnClickListener() {
                     @Override
@@ -101,14 +127,14 @@ public class TemHumAdapter extends BaseAdapter {
                         if (listItems[which].equals("修改")) {
                             Log.i("xiaowen", "修改状态");
 
-                            Intent intent = new Intent(context, ModifyTempActivity.class);
-                            intent.putExtra("name", nameLocal);
-                            intent.putExtra("phy_addr_did", phy_addr_did);
-                            intent.putExtra("route", route);
+                            Intent intent = new Intent(context, ModifyLibrary.class);
+                            intent.putExtra("library", libraryname);
+                            intent.putExtra("library_id", idstr);
+
                             context.startActivity(intent);
                         } else {
                             Log.i("xiaowen", "删除数据");
-                            deleteTemp(position, "temphun", nameLocal, phy_addr_did, route);
+                            deleteRoom(position, username, "library",libraryname,idstr);
                         }
                     }
                 });
@@ -119,19 +145,15 @@ public class TemHumAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void deleteTemp(final int position, String action, String nameLocal,
-                            String phy_addr_did, String route) {
+    private void deleteRoom(final int position, String username, String action, String libraryname, String idstr) {
         final HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", UserUtils.getUsername());
-        params.put("name", nameLocal);
-        params.put("phy_addr_did", phy_addr_did);
-        params.put("route", route);
-        params.put("type", action);
-        params.put("library_id", UserUtils.getLibraryid());
-
+        params.put("username", username);
+        params.put("action", action);
+        params.put("library",libraryname);
+        params.put("library_id",idstr);
         String JsonString = JsonUtil.toJson(params);
 
-        OkGo.post(HttpContant.getUnencryptionPath() + "temphumRemove")//
+        OkGo.post(HttpContant.getUnencryptionPath() + "libraryRemove")//
                 .tag(this)//
                 .upJson(JsonString)//
                 .execute(new StringCallback() {
@@ -142,12 +164,12 @@ public class TemHumAdapter extends BaseAdapter {
                         String result = resultEntity.get("result");
 
                         if (result.equals("success")) {
-                            Log.i("xiaowen", "温湿度设备删除成功");
-                            Toast.makeText(context, "温湿度设备删除成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "图书馆删除成功", Toast.LENGTH_SHORT).show();
                             data.remove(position);
                             notifyDataSetChanged();
                         } else {
-                            Toast.makeText(context, result.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, resultEntity.get("result") + "", Toast.LENGTH_SHORT).show();
+
                         }
                     }
 
@@ -159,18 +181,9 @@ public class TemHumAdapter extends BaseAdapter {
 
                     @Override
                     public void onError(Call call, Response response, Exception e) {
-                        Log.i("xiaowen", "error--这是测试是否刷新");
                         Toast.makeText(context, "服务器无响应,请稍后尝试", Toast.LENGTH_LONG).show();
                     }
                 });
     }
-
-
-    public final class ViewHolder {
-        public TextView name;
-        public TextView tempture;
-        public TextView humidity;
-    }
-
 
 }

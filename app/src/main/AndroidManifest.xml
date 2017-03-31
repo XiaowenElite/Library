@@ -34,7 +34,7 @@
         android:name="getui.permission.GetuiService.edu.zju.com.librarycontroller"
         android:protectionLevel="normal" />
 
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 替换为第三方应用的包名 -->
     <!-- 个推SDK权限配置结束 -->
@@ -108,7 +108,6 @@
             android:name="edu.zju.com.activity.AddCameraActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-
         <activity
             android:name="edu.zju.com.activity.ModifyAirActivity"
             android:screenOrientation="portrait"
@@ -125,14 +124,18 @@
             android:name="edu.zju.com.activity.EnviormentActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-
-        <activity android:name="edu.zju.com.activity.AddtemphumActivity"
+        <activity
+            android:name="edu.zju.com.activity.AddtemphumActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="edu.zju.com.activity.AddLightSenseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name="edu.zju.com.activity.LibrarySumActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
             />
-        <activity android:name="edu.zju.com.activity.AddLightSenseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -223,6 +226,16 @@
             android:process=":pushservice" />
         <!-- 个推SDK配置结束 -->
 
+        <activity android:name="edu.zju.com.activity.ModifyLibrary"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name="edu.zju.com.activity.ModifyLightSenseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+        <activity android:name="edu.zju.com.activity.ModifyTempActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
     </application>
 
 </manifest>

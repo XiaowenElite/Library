@@ -178,6 +178,8 @@ public class LightMyAdpter extends BaseAdapter {
         params.put("phy_addr_did", phy_addr_did);
         params.put("route", route);
         params.put("action", action);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "lightRemove")//
@@ -222,7 +224,8 @@ public class LightMyAdpter extends BaseAdapter {
         params.put("phy_addr_did", params3);
         params.put("route", params4);
         params.put("cmd", params5);
-
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
         String JsonString = JsonUtil.toJson(params);
 //okgo每次使用注意在全局文件中初始化
         OkGo.post(HttpContant.getUnencryptionPath() + "lightControl")//

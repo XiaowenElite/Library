@@ -112,6 +112,8 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
             params.put("name_edit", lightname);
             params.put("phy_addr_did_edit", lightaddr);
             params.put("route_edit", lightroute);
+            params.put("library_id",UserUtils.getLibraryid());
+
             String JsonString = JsonUtil.toJson(params);
 
             OkGo.post(HttpContant.getUnencryptionPath() + "lightEdit")//
@@ -134,6 +136,7 @@ public class ModifyLightActivity extends Activity implements View.OnClickListene
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                UserUtils.setisRefreshLight("true");
                                                 finish();
                                             }
                                         })

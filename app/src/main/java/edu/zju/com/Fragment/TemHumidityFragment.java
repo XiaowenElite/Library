@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,17 @@ public class TemHumidityFragment extends Fragment implements SwipeRefreshLayout.
     private List<TemHumBean.DataBean> list = null;
 
     public TemHumidityFragment(){
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("xiaowen","onresume---temp)");
+        if (UserUtils.getisRefreshTmep().equals("true")){
+            getTemHumidity(false);
+            UserUtils.setisRefreshTemp("false");
+        }
 
     }
 
@@ -88,6 +100,10 @@ public class TemHumidityFragment extends Fragment implements SwipeRefreshLayout.
         HashMap<String, String> params = new HashMap<>();
         params.put("username", UserUtils.getUsername());
         params.put("type", "temphum");
+
+
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
 
         if (!isRefresh) {
             LoadingProgress.getInstance(context).show();

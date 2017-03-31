@@ -67,7 +67,12 @@ public class LigthFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onResume() {
+        Log.i("xiaowen","onresume---light)");
         super.onResume();
+        if (UserUtils.getisRefreshLight().equals("true")){
+            getLights(false);
+            UserUtils.setisRefreshLight("false");
+        }
 
     }
 
@@ -88,8 +93,14 @@ public class LigthFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             LoadingProgress.getInstance(context).show();
         }
 
+
+        String libraryname = UserUtils.getLibraryname();
+
+
         params.put("username",UserUtils.getUsername());
         params.put("type", "light");
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
 
         String  JsonString = JsonUtil.toJson(params);
 

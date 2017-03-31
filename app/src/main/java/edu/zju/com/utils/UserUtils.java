@@ -36,16 +36,64 @@ public class UserUtils {
     }
 
 
-    public static void setCurrentEmPage(String currentPage){
-        Operator.setValueToPreferences("currentempage",currentPage);
+    public static void setisRefreshDoor(String isfresh){
+        Operator.setValueToPreferences("refreshDoor",isfresh);
     }
 
-    public static String getEmCurrentPage(){
-        return Operator.getValueFormPreferences("currentempage","0");
+    public static String getisRefreshDoor(){
+        return Operator.getValueFormPreferences("refresh","false");
+    }
+
+    public static void setisRefreshLight(String isfresh){
+        Operator.setValueToPreferences("refreshLight",isfresh);
+    }
+
+    public static String getisRefreshLight(){
+        return Operator.getValueFormPreferences("refreshLight","false");
+    }
+
+    public static void setisRefreshTemp(String isfresh){
+        Operator.setValueToPreferences("refreshTemp",isfresh);
+    }
+
+    public static String getisRefreshTmep(){
+        return Operator.getValueFormPreferences("refreshTemp","false");
+    }
+
+    public static void setisRefreshls(String isfresh){
+        Operator.setValueToPreferences("refreshls",isfresh);
+    }
+
+    public static String getisRefreshls(){
+        return Operator.getValueFormPreferences("refreshls","false");
+    }
+
+    public static void setisRefreshAir(String isfresh){
+        Operator.setValueToPreferences("refreshls",isfresh);
+    }
+
+    public static String getisRefreshAir(){
+        return Operator.getValueFormPreferences("refreshls","false");
     }
 
     public static void setAirname(String airname){
         Operator.setValueToPreferences("airname",airname);
+    }
+
+    public static String getLibraryname(){
+        return Operator.getValueFormPreferences("libName","0");
+    }
+
+    public static void setLibraryname(String libName){
+        Operator.setValueToPreferences("libName",libName);
+    }
+
+    public static String getLibraryid(){
+        return Operator.getValueFormPreferences("libid","0");
+    }
+
+    public static void setLibraryid(String libid){
+        Operator.setValueToPreferences("libid",libid);
     }
 
     public static String getAirname(){
@@ -96,4 +144,6 @@ public class UserUtils {
         }
         return false;
     }
+
+
 }

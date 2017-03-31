@@ -1,6 +1,7 @@
 package edu.zju.com.activity;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,102 +24,73 @@ import edu.zju.com.utils.UserUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
-/**
- * Created by lixiaowen on 16/12/28.
- */
-
-public class ModifyDoorActivity extends Activity implements View.OnClickListener {
-
+public class ModifyLibrary extends Activity implements View.OnClickListener{
     private String name;
-    private String addr;
-    private String route;
+    private String id;
 
-    private TextView mf_name;
-    private TextView mf_addr;
-    private TextView mf_route;
-
-
-    private String doorname;
-    private String dooraddr;
-    private String doorroute;
+    private TextView mf_libraryName;
 
     private LinearLayout back;
     private Button modify;
     private Button cancle;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.modifydoor);
+        setContentView(R.layout.activity_modify_library);
 
-        name = getIntent().getStringExtra("name");
-        addr = getIntent().getStringExtra("phy_addr_did");
-        route = getIntent().getStringExtra("route");
+        name = getIntent().getStringExtra("library");
+        id = getIntent().getStringExtra("library_id");
 
         init();
     }
 
     private void init() {
-        mf_name = (TextView) findViewById(R.id.mf_doorName);
-        mf_addr = (TextView) findViewById(R.id.mf_doorPhyAddr);
-        mf_route = (TextView) findViewById(R.id.mf_doorLine);
-        back = (LinearLayout) findViewById(R.id.mf_doorBack);
-        modify = (Button) findViewById(R.id.door_modify);
-        cancle = (Button) findViewById(R.id.door_cancle);
+        mf_libraryName = (TextView) findViewById(R.id.mf_libraryName);
 
+        back = (LinearLayout)findViewById(R.id.mf_roomBack);
+        modify = (Button)findViewById(R.id.library_modify);
+        cancle = (Button)findViewById(R.id.library_cancle);
 
-        mf_name.setText(name);
-        mf_addr.setText(addr);
-        mf_route.setText(route);
+        mf_libraryName.setText(name);
 
         back.setOnClickListener(this);
         modify.setOnClickListener(this);
         cancle.setOnClickListener(this);
-    }
 
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.door_modify:
-                modifyDoor();
+            case R.id.library_cancle:
                 break;
-            case R.id.door_cancle:
-                UserUtils.setCurrentPage("0");
-
+            case R.id.library_modify:
+                modifyLibrary();
                 finish();
                 break;
-            case R.id.mf_doorBack:
+            case R.id.mf_roomBack:
                 finish();
                 break;
-
         }
     }
 
-    public void modifyDoor() {
-        doorname = mf_name.getText().toString().trim();
-        dooraddr = mf_addr.getText().toString().trim();
-        doorroute = mf_route.getText().toString().trim();
+    public void modifyLibrary() {
+        String libraryname = mf_libraryName.getText().toString().trim();
 
-        if (doorname.equals("") || dooraddr.equals("") || doorroute.equals("")) {
-            Toast.makeText(ModifyDoorActivity.this, "请填写全部信息", Toast.LENGTH_SHORT).show();
+        if (libraryname.equals("")) {
+            Toast.makeText(ModifyLibrary.this, "请填写全部信息", Toast.LENGTH_SHORT).show();
         } else {
             final HashMap<String, String> params = new HashMap<String, String>();
             params.put("username", UserUtils.getUsername());
-            params.put("name", name);
-            params.put("phy_addr_did", addr);
-            params.put("route", route);
-            params.put("action", "door");
-            params.put("name_edit", doorname);
-            params.put("phy_addr_did_edit", dooraddr);
-            params.put("route_edit", doorroute);
-            params.put("library_id",UserUtils.getLibraryid());
+            params.put("library_edit", libraryname);
+            params.put("library_id",id);
+            params.put("action", "library");
 
 
             String JsonString = JsonUtil.toJson(params);
 
-            OkGo.post(HttpContant.getUnencryptionPath() + "doorEdit")//
+            OkGo.post(HttpContant.getUnencryptionPath() + "libraryEdit")//
                     .tag(this)//
                     .upJson(JsonString)//
                     .execute(new StringCallback() {
@@ -129,22 +101,21 @@ public class ModifyDoorActivity extends Activity implements View.OnClickListener
                             String result = resultEntity.get("result");
 
                             if (result.equals("success")) {
-                                UserUtils.setCurrentPage("0");
+                                UserUtils.setCurrentPage("1");
 
-                                new SweetAlertDialog(ModifyDoorActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                new SweetAlertDialog(ModifyLibrary.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("Success")
-                                        .setContentText("您已经成功修改门")
+                                        .setContentText("您已经成功修改灯")
                                         .setConfirmText("确认")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                UserUtils.setisRefreshDoor("true");
                                                 finish();
                                             }
                                         })
                                         .show();
                             } else {
-                                Toast.makeText(ModifyDoorActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ModifyLibrary.this,result.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
 

@@ -102,23 +102,14 @@ public class AirMyAdpter extends BaseAdapter {
         mHolder.onOff.setBackgroundResource(R.drawable.ios7_btn);
         //电源状态
         power = data.get(position).get("power");
-        if (power != null) {
-            if (power.equals("open")) {
-                mHolder.onOff.setChecked(true);
-            } else if (power.equals("close")) {
-                Log.i("xiaowen", "空调电源同步失败");
-                mHolder.onOff.setChecked(false);
-            }
 
-        } else {
+        if (power == null) {
             power = "false";
-            mHolder.onOff.setChecked(false);
         }
+
         mHolder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (power.equals("open")) {
-                    //取出当前数组数据
                     UserUtils.setAirname(data.get(position).get("name"));
                     UserUtils.setAiraddr(data.get(position).get("phy_addr_did"));
                     UserUtils.setAirroute(data.get(position).get("route"));
@@ -130,11 +121,6 @@ public class AirMyAdpter extends BaseAdapter {
                     }
                     Intent intent = new Intent(mContext, AirControl.class);
                     mContext.startActivity(intent);
-                } else {
-                    new SweetAlertDialog(mContext)
-                            .setTitleText("请先打开电源开关")
-                            .show();
-                }
             }
         });
 
@@ -211,6 +197,8 @@ public class AirMyAdpter extends BaseAdapter {
         params.put("phy_addr_did", addr);
         params.put("route", route);
         params.put("action", action);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "airRemove")//
@@ -247,6 +235,7 @@ public class AirMyAdpter extends BaseAdapter {
                 });
     }
 
+    //
     private void changePowerState(final String username, final String airname, final String addr,
                                   final String route, final String airpower) {
         final HashMap<String, String> params = new HashMap<String, String>();
@@ -256,6 +245,8 @@ public class AirMyAdpter extends BaseAdapter {
         params.put("phy_addr_did", addr);
         params.put("route", route);
         params.put("power", airpower);
+        String libid = UserUtils.getLibraryid();
+        params.put("library_id",libid);
 
         String JsonString = JsonUtil.toJson(params);
         OkGo.post(HttpContant.getUnencryptionPath() + "airControl")//

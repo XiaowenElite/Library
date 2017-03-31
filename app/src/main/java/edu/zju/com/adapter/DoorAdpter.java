@@ -44,6 +44,8 @@ public class DoorAdpter extends BaseAdapter {
     private Context context;
 
     private DoorAdpter doorAdpter;
+    String libid = UserUtils.getLibraryid();
+
 
     ViewHolder mHolder;
 
@@ -175,6 +177,8 @@ public class DoorAdpter extends BaseAdapter {
         params.put("phy_addr_did", phy_addr_did);
         params.put("route", route);
         params.put("action", action);
+        params.put("library_id",libid);
+
         String JsonString = JsonUtil.toJson(params);
 
         OkGo.post(HttpContant.getUnencryptionPath() + "doorRemove")//
@@ -219,6 +223,7 @@ public class DoorAdpter extends BaseAdapter {
         params.put("phy_addr_did", params3);
         params.put("route", params4);
         params.put("cmd", params5);
+        params.put("library_id",libid);
 
         String JsonString = JsonUtil.toJson(params);
         OkGo.post(HttpContant.getUnencryptionPath() + "doorControl")//

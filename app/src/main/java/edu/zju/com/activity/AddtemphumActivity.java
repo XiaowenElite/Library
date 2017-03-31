@@ -62,7 +62,7 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.save:
+			case R.id.save_device:
 				String  type = "temphum";
 				String thName = name.getText().toString();
 				String thPhyAddr = addr.getText().toString();
@@ -73,11 +73,11 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 					Toast.makeText(AddtemphumActivity.this,"请填写全部信息",Toast.LENGTH_SHORT).show();
 				}
 				break;
-			case R.id.unsave:
+			case R.id.unsave_device:
 				finish();
 				break;
-			case R.id.btn_doorBack:
-				UserUtils.setCurrentEmPage("0");
+			case R.id.btn_deviceBack:
+				UserUtils.setCurrentPage("4");
 				finish();
 				break;
 			default:
@@ -91,6 +91,8 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 		params.put("name", params3);
 		params.put("phy_addr_did", params4);
 		params.put("route",params5);
+		String libid = UserUtils.getLibraryid();
+		params.put("library_id",libid);
 		String  JsonString = JsonUtil.toJson(params);
 		OkGo.post(HttpContant.getUnencryptionPath()+"temphumAdd")//
 				.tag(this)//
@@ -105,7 +107,7 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 						//get方法直接获取key对应的value
 						String result = (String) data.get("result");
 						if("success".equals(result)) {
-							UserUtils.setCurrentEmPage("0");
+							UserUtils.setCurrentPage("4");
 							new SweetAlertDialog(AddtemphumActivity.this,SweetAlertDialog.SUCCESS_TYPE)
 									.setTitleText("Success")
 									.setContentText("您已经成功添加温湿度设备")
@@ -113,6 +115,8 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 									.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
 										@Override
 										public void onClick(SweetAlertDialog sweetAlertDialog) {
+											UserUtils.setisRefreshTemp("true");
+
 											finish();
 										}
 									})
@@ -140,7 +144,7 @@ public class AddtemphumActivity extends Activity implements OnClickListener{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			UserUtils.setCurrentEmPage("0");
+			UserUtils.setCurrentPage("4");
 		}
 		return super.onKeyDown(keyCode, event);
 	}
